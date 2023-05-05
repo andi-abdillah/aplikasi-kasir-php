@@ -32,18 +32,6 @@ $pengguna = $_SESSION['user'];
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
-
-  <style type="text/css">
-    .menu:hover{
-        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.04);
-        transform: scale(1.03);
-    }
-    .icon-lg {
-      width: 100px;
-      height: 90px;
-    }
-  </style>
-
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -75,7 +63,7 @@ $pengguna = $_SESSION['user'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="./katalog.php">
+          <a class="nav-link text-white " href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
@@ -86,7 +74,7 @@ $pengguna = $_SESSION['user'];
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="./riwayat-transaksi.php">
+          <a class="nav-link text-white active bg-gradient-primary" href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -150,75 +138,111 @@ $pengguna = $_SESSION['user'];
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row">
-        <?php
-          $dataMenu = mysqli_query($conn, "SELECT * FROM menu");
-          $i = 1;
-          while($data=mysqli_fetch_array($dataMenu)){
-            $id_produk = $data['id_produk'];
-            $jenis_menu = $data['jenis_menu'];
-            $nama_produk = $data['nama_produk'];
-            $harga = $data['harga'];
-            $gambar = $data['gambar'];
-        ?>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card menu pt-2">
-            <div class="card-header p-3 pt-2">
-              <img class="icon icon-lg icon-shape bg-gradient-primary shadow-dark text-center border-radius-xl mt-n4 position-absolute" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan">
-              <div class="text-end pt-3">
-                <button class="btn bg-gradient-info py-1 px-2">Rp<?=number_format($harga,0,",",".");?></button>
-              </div>
-              <div class="pt-4">
-                <p class="fw-bolder mb-0 text-capitalize"><?=$nama_produk;?></p>
-              </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer d-flex justify-content-center py-3">
-              <button class="btn bg-gradient-success mx-0 my-0" data-bs-toggle="modal" data-bs-target="#pesanMenu<?=$id_produk;?>">
-                + Pesan
-              </button>
-            </div>
+      <!-- Button trigger modal -->
+      <div class="d-flex justify-content-between">
+        <button class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#inputJenisMenu">
+          + Tambah Jenis Menu
+        </button>
+        <button class="btn bg-gradient-success mx-3" data-bs-toggle="modal" data-bs-target="#inputMenu">
+          + Tambah Menu
+        </button>
+      </div>
+      <div class="card mt-4 mb-5">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Menu : </h6>
           </div>
         </div>
-         <!-- Modal Pesan Menu -->
-         <div class="modal fade" id="pesanMenu<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Tambahkan Menu Baru</h5>
-                  </div>
-                  <div class="modal-body">
-                    <div class="input-group input-group-outline my-3">
-                      <label class="form-label">Nama Pembeli</label>
-                      <input type="text" class="form-control" name="nama_pembeli" required>
-                    </div>
-                    <div class="input-group input-group-outline my-3">
-                      <label class="form-label"></label>
-                      <input type="text" class="form-control" value="<?=$nama_produk;?>" name="namaProduk" disabled>
-                    </div>
-                    <div class="input-group input-group-outline my-3">
-                      <label class="form-label"></label>
-                      <input type="text" class="form-control" value="Rp. <?=number_format($harga,0,",",".");?>" disabled>
-                      <input type="text" value="<?=$harga;?>" name="harga">
-                    </div>
-                    <div class="input-group input-group-outline my-3">
-                      <label class="form-label">Jumlah</label>
-                      <input type="number" class="form-control" name="jumlah" required>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn bg-gradient-success" name="inputMenu">Tambahkan</button>
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    No.</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Nama Pembeli</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Nama Produk</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Tanggal</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Harga</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Jumlah</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Subtotal</th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $dataMenu = mysqli_query($conn, "SELECT * FROM transaksi");
+                  $i = 1;
+                  while($data=mysqli_fetch_array($dataMenu)){
+                    $id_transaksi = $data['id_transaksi'];
+                    $nama_pembeli = $data['nama_pembeli']; 
+                    $nama_produk = $data['nama_produk'];
+                    $tgl_transaksi = $data['tgl_transaksi'];
+                    $harga = $data['harga']; 
+                    $jumlah = $data['jumlah']; 
+                    $subtotal = $data['subtotal']; 
+                ?>
+                <tr>
+                  <td class="align-middle text-center text-sm">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$nama_pembeli;?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk;?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$tgl_transaksi;?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">Rp. <?=number_format($harga,0,",",".");?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$jumlah;?></span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?=$subtotal;?></span>
+                  </td>
+                  <td class="text-end">
+                    <button class="btn bg-gradient-danger mx-2" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_transaksi;?>">
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+                <!-- Modal Hapus Menu-->
+                <div class="modal fade" id="hapus<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
+                          <input type="hidden" class="form-control" value="<?=$id_produk;?>" name="id_produk">
+                          <input type="hidden" class="form-control" value="<?=$gambar;?>"  name="file">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn bg-gradient-success" name="hapusMenu">Iya</button>
+                          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
-              </form>
-            </div>
+                
+                <?php
+                  };
+
+                ?>
+              </tbody>
+            </table>
           </div>
-          
-        <?php
-          };
-        ?>
+        </div>
       </div>
     </div>
   </main>
@@ -243,7 +267,6 @@ $pengguna = $_SESSION['user'];
   <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
   <!-- Bootstrap 5 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
 </body>
 
   <!-- Sign Out Modal-->
