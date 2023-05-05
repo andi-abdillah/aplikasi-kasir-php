@@ -68,7 +68,7 @@ if(isset($_POST['hapuslaptopmasuk'])){
 }
 
 
-// Input Menu Baru
+// Input Menu
 if(isset($_POST['inputMenu'])){
     $jenisMenu = $_POST['jenisMenu'];
     $namaProduk = $_POST['namaProduk'];
@@ -87,6 +87,55 @@ if(isset($_POST['inputMenu'])){
         header('location:kelola-produk.php');
     }
 }
+
+// Ubah Menu
+if(isset($_POST['ubahMenu'])){
+    $id_produk = $_POST['id_produk'];
+    $nama_produk = $_POST['nama_produk'];
+    $harga = $_POST['harga'];
+    $tanggal = $_POST['tanggal'];
+    $file= $_POST['file'];
+    $file_baru = $_FILES['file_baru']['name'];
+    $tmp_name = $_FILES['file_baru']['tmp_name'];
+    $folder = '../assets/pictures/';
+ 
+    if($file_baru != ''){
+        $update= mysqli_query($conn, "UPDATE menu SET nama_produk='$nama_produk', harga='$harga', tgl_input='$tanggal', gambar='$file_baru' WHERE id_produk='$id_produk'");
+        if($update){
+            move_uploaded_file($tmp_name, $folder.$file_baru);
+            unlink($folder.$file);
+            header('location:kelola-produk.php');
+        } else {
+            echo 'Gagal';
+            header('location:kelola-produk.php');
+        }
+    }else {
+        $update= mysqli_query($conn, "UPDATE menu SET nama_produk='$nama_produk', harga='$harga', tgl_input='$tanggal' WHERE id_produk='$id_produk'");
+        if($update){
+            header('location:kelola-produk.php');
+        } else {
+            echo 'Gagal';
+            header('location:kelola-produk.php');
+        }
+    }
+}
+
+// Hapus Menu
+if(isset($_POST['hapusMenu'])){
+    $id_produk = $_POST['id_produk'];
+    $file = $_POST['file'];
+    $folder = '../assets/pictures/';
+
+    unlink($folder.$file);
+    $hapus = mysqli_query($conn, "DELETE FROM menu WHERE id_produk = '$id_produk'");
+    if($hapus){
+        header('location:kelola-produk.php');
+    } else {
+        echo 'Gagal';
+        header('location:kelola-produk.php');
+    }
+}
+
 
 
 

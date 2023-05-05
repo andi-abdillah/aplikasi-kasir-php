@@ -201,15 +201,74 @@ $pengguna = $_SESSION['user'];
                           <img src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
                         </span>
                       </td>
-                      <td class="align-middle">
-                        <button class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#">
+                      <td class="text-end">
+                        <button class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#ubah<?=$id_produk;?>">
                           Edit
                         </button>
-                        <button class="btn bg-gradient-danger" data-bs-toggle="modal" data-bs-target="#">
+                        <button class="btn bg-gradient-danger mx-2" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_produk;?>">
                           Hapus
                         </button>
                       </td>
                     </tr>
+
+                    <!-- Modal Ubah Menu -->
+                    <div class="modal fade" id="ubah<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="staticBackdropLabel">Ubah Data Menu</h5>
+                            </div>
+                            <div class="modal-body">
+                              <input type="hidden" class="form-control" value="<?=$id_produk;?>" name="id_produk">
+                              <div class="input-group input-group-outline my-3">
+                                <label class="form-label"></label>
+                                <input type="text" class="form-control" value="<?=$nama_produk;?>" name="nama_produk" required>
+                              </div>
+                              <div class="input-group input-group-outline my-3">
+                                <label class="form-label"></label>
+                                <input type="number" class="form-control" value="<?=$harga;?>" name="harga" required>
+                              </div>
+                              <div class="input-group input-group-outline my-3">
+                                <label class="form-label"></label>
+                                <input type="date" class="form-control" value="<?=$tgl_input;?>" name="tanggal" required>
+                              </div>
+                              <div class="input-group input-group-outline my-3">
+                                <label class="form-label"></label>
+                                <input type="file" class="form-control" name="file_baru">
+                              </div>
+                              <div class="input-group input-group-outline my-3">
+                                Gambar Saat Ini&nbsp;&nbsp; : &nbsp;<img class="rounded" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
+                              </div>
+                              <input type="hidden" class="form-control" value="<?=$gambar;?>" name="file">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn bg-gradient-success" name="ubahMenu">Ubah</button>
+                              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- Modal Hapus Menu-->
+                    <div class="modal fade" id="hapus<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
+                              <input type="hidden" class="form-control" value="<?=$id_produk;?>" name="id_produk">
+                              <input type="hidden" class="form-control" value="<?=$gambar;?>"  name="file">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn bg-gradient-success" name="hapusMenu">Iya</button>
+                              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    
                     <?php
                       };
 
@@ -246,7 +305,7 @@ $pengguna = $_SESSION['user'];
                         }
 
                     ?>
-                </select>
+                  </select>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Nama Produk</label>
