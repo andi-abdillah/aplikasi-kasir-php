@@ -2,14 +2,14 @@
 require './pages/function.php';
 
 if(isset($_POST["register"])){
-    if(registrasi($_POST)>0){
-        echo "<script>
-        alert('Admin Baru Berhasil Ditambahkan, Silahkan Login!');
-        </script>";
-    }
-    else{
-        echo mysqli_error($conn);
-    }
+  if(registrasi($_POST)>0){
+    echo "<script>
+    alert('Admin Baru Berhasil Ditambahkan, Silahkan Login!');
+    </script>";
+  }
+  else{
+      echo mysqli_error($conn);
+  }
 }
 ?>
 

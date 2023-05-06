@@ -13,6 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  
+  <!-- Icons Google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
   <title>
     Material Dashboard 2 by Creative Tim
   </title>
@@ -140,10 +144,10 @@ $pengguna = $_SESSION['user'];
     <div class="container-fluid py-4">
       <!-- Button trigger modal -->
       <div class="d-flex justify-content-between">
-        <button class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#inputJenisMenu">
+        <button class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#input_jenis_menu">
           + Tambah Jenis Menu
         </button>
-        <button class="btn bg-gradient-success mx-3" data-bs-toggle="modal" data-bs-target="#inputMenu">
+        <button class="btn bg-gradient-success mx-3" data-bs-toggle="modal" data-bs-target="#input_menu">
           + Tambah Menu
         </button>
       </div>
@@ -227,7 +231,7 @@ $pengguna = $_SESSION['user'];
                           <input type="hidden" class="form-control" value="<?=$gambar;?>"  name="file">
                         </div>
                         <div class="modal-footer">
-                          <button type="submit" class="btn bg-gradient-success" name="hapusMenu">Iya</button>
+                          <button type="submit" class="btn bg-gradient-success" name="hapus_menu">Iya</button>
                           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
                         </div>
                       </div>
@@ -277,7 +281,7 @@ $pengguna = $_SESSION['user'];
           <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
         </div>
         <div class="modal-footer">
-          <a class="btn btn-primary" href="../sign-out.php">Iya</a>
+          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
         </div>
       </div>

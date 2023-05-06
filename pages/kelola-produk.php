@@ -13,6 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  
+  <!-- Icons Google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
   <title>
     Material Dashboard 2 by Creative Tim
   </title>
@@ -35,7 +39,7 @@ $pengguna = $_SESSION['user'];
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
@@ -139,26 +143,53 @@ $pengguna = $_SESSION['user'];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <!-- Button trigger modal -->
-      <div class="d-flex justify-content-between">
-        <button class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#inputJenisMenu">
-          + Tambah Jenis Menu
-        </button>
-        <button class="btn bg-gradient-success mx-3" data-bs-toggle="modal" data-bs-target="#inputMenu">
-          + Tambah Menu
+      <div class="d-flex justify-content-end">
+        <button class="btn bg-gradient-dark d-flex align-items-center justify-content-center mx-2 px-3" data-bs-toggle="modal" data-bs-target="#input_jenis_menu">
+          <span class="material-symbols-rounded">add_circle</span>&nbsp;
+          Jenis Menu
         </button>
       </div>
-
+      <div style=" position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9999;">
+        <button class="btn bg-gradient-success d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
+          <span class="material-symbols-rounded">add_circle</span>&nbsp;
+          Menu
+        </button>
+      </div>
+      <!-- End -->
+      <div class="row mb-5">
+        <?php
+          $colors = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+          $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
+          $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+          while($data=mysqli_fetch_array($dataMenu)){
+            $jenis_menu = $data['jenis_menu'];
+            $removedColor = array_shift($colors);
+            array_push($colors, $removedColor);
+            $removedIcon = array_shift($icons);
+            array_push($icons, $removedIcon);
+        ?>
+          <form class="col-xl-3 col-sm-6 col-6 mb-xl-0" method="post">
+            <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
+            <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
+            <button class="btn bg-gradient-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
+            name="pilih_jenis_menu2">
+              <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
+              <?=$jenis_menu;?>
+            </button>
+          </form>
+        <?php
+          };
+        ?>
+      </div>
       <?php
-        $dataJenisMenu= mysqli_query($conn, "SELECT * FROM jenis_menu");
-        while($data=mysqli_fetch_array($dataJenisMenu)){
-          $id_menu = $data['id_menu'];
-          $jenis_menu = $data['jenis_menu'];
-
+        $data_jenis_menu= mysqli_query($conn, "SELECT COUNT(*) FROM menu WHERE jenis_menu = '$pilihan_jenis_menu'");
+        $row = mysqli_fetch_array($data_jenis_menu);
+        if ($row[0] > 0) {
       ?>
           <div class="card mt-4 mb-5">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Menu : <?=$jenis_menu;?></h6>
+              <div class="bg-gradient-<?=$warna_menu;?> shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3"><?=$pilihan_jenis_menu;?></h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -166,37 +197,41 @@ $pengguna = $_SESSION['user'];
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
                         No.</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
                         Nama Produk</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
                         Harga</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
                         Tanggal</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
                         Gambar</th>
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-secondary"></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                      $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$jenis_menu' ");
+                      $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$pilihan_jenis_menu' ");
                       $i = 1;
                       while($data=mysqli_fetch_array($dataMenu)){
                         $id_produk = $data['id_produk'];
                         $jenis_menu = $data['jenis_menu']; 
-                        $nama_produk = $data['nama_produk']; 
+                        $nama_produk = $data['nama_produk'];
+                        $nama_produk_baru = $data['nama_produk'];
                         $harga = $data['harga']; 
                         $tgl_input = $data['tgl_input']; 
-                        $gambar = $data['gambar']; 
+                        $gambar = $data['gambar'];
+                        if (strlen($nama_produk_baru) > 20) {
+                          $nama_produk_baru= substr($nama_produk_baru, 0, 25) . "...";
+                        }
                     ?>
                     <tr>
                       <td class="align-middle text-center text-sm">
                         <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk_baru;?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">Rp. <?=number_format($harga,0,",",".");?></span>
@@ -206,15 +241,15 @@ $pengguna = $_SESSION['user'];
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                          <img src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
+                          <img class="border-radius-xl" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
                         </span>
                       </td>
                       <td class="text-end">
-                        <button class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#ubah<?=$id_produk;?>">
-                          Edit
+                        <button class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#ubah<?=$id_produk;?>">
+                          <i class="material-icons text-sm me-2">edit</i>Edit
                         </button>
-                        <button class="btn bg-gradient-danger mx-2" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_produk;?>">
-                          Hapus
+                        <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_produk;?>">
+                          <i class="material-icons text-sm me-2">delete</i>Hapus
                         </button>
                       </td>
                     </tr>
@@ -251,7 +286,7 @@ $pengguna = $_SESSION['user'];
                               <input type="hidden" class="form-control" value="<?=$gambar;?>" name="file">
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" class="btn bg-gradient-success" name="ubahMenu">Ubah</button>
+                              <button type="submit" class="btn bg-gradient-success" name="ubah_menu">Ubah</button>
                               <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
                             </div>
                           </div>
@@ -269,7 +304,7 @@ $pengguna = $_SESSION['user'];
                               <input type="hidden" class="form-control" value="<?=$gambar;?>"  name="file">
                             </div>
                             <div class="modal-footer">
-                              <button type="submit" class="btn bg-gradient-success" name="hapusMenu">Iya</button>
+                              <button type="submit" class="btn bg-gradient-success" name="hapus_menu">Iya</button>
                               <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
                             </div>
                           </div>
@@ -287,11 +322,17 @@ $pengguna = $_SESSION['user'];
             </div>
           </div>
       <?php
-        };
+        }else {
+      ?>
+          <div class="text-center">
+            <h2>Data Tidak Ditemukan!</h2>
+          </div>
+      <?php 
+        }
       ?>
 
       <!-- Modal Input Menu Baru -->
-      <div class="modal fade" id="inputMenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="input_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
             <div class="modal-content">
@@ -301,7 +342,7 @@ $pengguna = $_SESSION['user'];
               <div class="modal-body">
                 <span>Pilih Jenis Menu :</span>
                 <div class="input-group input-group-outline my-3">
-                  <select name="jenisMenu" class="form-control">
+                  <select name="jenis_menu" class="form-control">
                     <?php
                       $ambildata = mysqli_query($conn, "SELECT * FROM jenis_menu");
                         while($fetcharray = mysqli_fetch_array($ambildata)){
@@ -317,7 +358,7 @@ $pengguna = $_SESSION['user'];
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Nama Produk</label>
-                  <input type="text" class="form-control" name="namaProduk" required>
+                  <input type="text" class="form-control" name="nama_produk" required>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Harga</label>
@@ -333,7 +374,7 @@ $pengguna = $_SESSION['user'];
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn bg-gradient-success" name="inputMenu">Tambahkan</button>
+                <button type="submit" class="btn bg-gradient-success" name="input_menu">Tambahkan</button>
                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
               </div>
             </div>
@@ -366,7 +407,7 @@ $pengguna = $_SESSION['user'];
 </body>
 
   <!-- Modal Input Jenis Menu -->
-  <div class="modal fade" id="inputJenisMenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="input_jenis_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <form role="form" class="text-start" method="post">
         <div class="modal-content">
@@ -376,11 +417,11 @@ $pengguna = $_SESSION['user'];
           <div class="modal-body">
             <div class="input-group input-group-outline my-3">
               <label class="form-label">Contoh : Makanan Tradisional</label>
-              <input type="text" class="form-control" name="jenisMenu" required>
+              <input type="text" class="form-control" name="jenis_menu" required>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn bg-gradient-success" name="inputJenisMenu">Tambahkan</button>
+            <button type="submit" class="btn bg-gradient-success" name="input_jenis_menu">Tambahkan</button>
             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
           </div>
         </div>
@@ -396,7 +437,7 @@ $pengguna = $_SESSION['user'];
           <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
         </div>
         <div class="modal-footer">
-          <a class="btn btn-primary" href="../sign-out.php">Iya</a>
+          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
         </div>
       </div>

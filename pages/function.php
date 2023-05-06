@@ -38,18 +38,40 @@ function registrasi($data){
     return mysqli_affected_rows($conn);
 }
 
+//format ribuan menjadi k
+function format_angka($angka) {
+    if ($angka >= 1000) {
+        $angka_format = number_format($angka / 1000, 1) . 'k';
+    } else {
+        $angka_format = $angka;
+    }
+    return $angka_format;
+}
+
+// melakukan query untuk mengambil nilai dari kolom "nama_kolom" pada baris pertama tabel "nama_tabel"
+$result = mysqli_query($conn, "SELECT jenis_menu FROM jenis_menu LIMIT 0, 1");
+
+// mengambil nilai dari hasil query
+$data = mysqli_fetch_array($result);
+
+// mengubah nilai menjadi string
+$pilihan_jenis_menu = strval($data["jenis_menu"]);
+$warna_menu = 'primary';
+
+if(isset($_POST['pilih_jenis_menu'])){
+    $pilihan_jenis_menu = $_POST['jenis_menu'];
+}
+
+if(isset($_POST['pilih_jenis_menu2'])){
+    $pilihan_jenis_menu = $_POST['jenis_menu'];
+    $warna_menu = $_POST['warna_menu'];
+}
 
 // Input Jenis Menu
-if(isset($_POST['inputJenisMenu'])){
-    $jenisMenu = $_POST['jenisMenu'];
+if(isset($_POST['input_jenis_menu'])){
+    $jenis_menu = $_POST['jenis_menu'];
  
-    $tambah = mysqli_query($conn, "INSERT INTO jenis_menu (jenis_menu) VALUES('$jenisMenu')");
-    if($tambah){
-        header('location:kelola-produk.php');
-    } else {
-        echo 'Gagal';
-        header('location:kelola-produk.php');
-    }
+    $tambah = mysqli_query($conn, "INSERT INTO jenis_menu (jenis_menu) VALUES('$jenis_menu')");
 }
 
 // Hapus Jenis Menu
@@ -69,27 +91,20 @@ if(isset($_POST['hapuslaptopmasuk'])){
 
 
 // Input Menu
-if(isset($_POST['inputMenu'])){
-    $jenisMenu = $_POST['jenisMenu'];
-    $namaProduk = $_POST['namaProduk'];
+if(isset($_POST['input_menu'])){
+    $jenis_menu = $_POST['jenis_menu'];
+    $nama_produk = $_POST['nama_produk'];
     $harga = $_POST['harga'];
     $tanggal = $_POST['tanggal'];
     $file = $_FILES['file']['name'];
     $tmp_name = $_FILES['file']['tmp_name'];
 
     move_uploaded_file($tmp_name, '../assets/pictures/'.$file);
- 
-    $tambah = mysqli_query($conn,"INSERT INTO menu (jenis_menu, nama_produk, harga, tgl_input, gambar) VALUES('$jenisMenu', '$namaProduk', '$harga', '$tanggal', '$file')");
-    if($tambah){
-        header('location:kelola-produk.php');
-    } else {
-        echo 'Gagal';
-        header('location:kelola-produk.php');
-    }
+    $tambah = mysqli_query($conn,"INSERT INTO menu (jenis_menu, nama_produk, harga, tgl_input, gambar) VALUES('$jenis_menu', '$nama_produk', '$harga', '$tanggal', '$file')");
 }
 
 // Ubah Menu
-if(isset($_POST['ubahMenu'])){
+if(isset($_POST['ubah_menu'])){
     $id_produk = $_POST['id_produk'];
     $nama_produk = $_POST['nama_produk'];
     $harga = $_POST['harga'];
@@ -121,20 +136,55 @@ if(isset($_POST['ubahMenu'])){
 }
 
 // Hapus Menu
-if(isset($_POST['hapusMenu'])){
+if(isset($_POST['hapus_menu'])){
     $id_produk = $_POST['id_produk'];
     $file = $_POST['file'];
     $folder = '../assets/pictures/';
 
     unlink($folder.$file);
     $hapus = mysqli_query($conn, "DELETE FROM menu WHERE id_produk = '$id_produk'");
-    if($hapus){
-        header('location:kelola-produk.php');
+}
+
+// Input Pesanan
+if(isset($_POST['input_pesanan'])){
+    $nama_produk = $_POST['nama_produk'];
+    $harga = $_POST['harga'];
+    $jumlah = $_POST['jumlah'];
+    $subtotal = $harga * $jumlah;
+    
+    $tambah = mysqli_query($conn,"INSERT INTO pesanan (nama_produk, harga, jumlah, subtotal) VALUES('$nama_produk', '$harga', '$jumlah', '$subtotal')");
+}
+
+// Hapus Pesanan
+if(isset($_POST['hapus_pesanan'])){
+    $id_pesanan = $_POST['id_pesanan'];
+    
+    $hapus = mysqli_query($conn, "DELETE FROM pesanan WHERE id_pesanan = '$id_pesanan'");
+}
+
+
+//Pindah Data Pesanan Ke Riwayat Transaksi
+if(isset($_POST['konfirmasi_pesanan'])){
+    $nama_pembeli = $_POST['nama_pembeli'];
+    $tanggal = $_POST['tanggal'];
+
+    $update= mysqli_query($conn, "UPDATE pesanan SET nama_pembeli='$nama_pembeli', tgl_transaksi='$tanggal'");
+    if($update){
+        $pindahdata = mysqli_query($conn, "INSERT INTO transaksi (nama_pembeli, nama_produk, tgl_transaksi, harga, jumlah, subtotal) SELECT nama_pembeli, nama_produk, tgl_transaksi, harga, jumlah, subtotal FROM pesanan");
+        $hapusdata = mysqli_query($conn, "DELETE FROM pesanan ");
     } else {
         echo 'Gagal';
-        header('location:kelola-produk.php');
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 

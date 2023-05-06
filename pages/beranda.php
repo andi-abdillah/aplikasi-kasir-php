@@ -13,6 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+
+  <!-- Icons Google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
   <title>
     Material Dashboard 2 by Creative Tim
   </title>
@@ -303,7 +307,7 @@ $pengguna = $_SESSION['user'];
           <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
         </div>
         <div class="modal-footer">
-          <a class="btn btn-primary" href="../sign-out.php">Iya</a>
+          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
           <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
         </div>
       </div>
