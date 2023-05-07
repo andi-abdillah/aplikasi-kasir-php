@@ -2,53 +2,53 @@
 require './pages/function.php';
 
 // cek login, terdaftar atau tidak
-if(isset($_POST['login'])){
-  $user = $_POST['user'];
-  $password = $_POST['password'];
-  $_SESSION['user'] = $_POST['user'];
-  //mencocokkan dengan data
-  $cekdatabase = mysqli_query($conn, "SELECT * FROM user where username = '$user' and sandi = '$password' ");
-  //hitung jumlah data
-  $hitung = mysqli_num_rows($cekdatabase);
+// if(isset($_POST['login'])){
+//   $user = $_POST['user'];
+//   $password = $_POST['password'];
+//   $_SESSION['user'] = $_POST['user'];
+//   //mencocokkan dengan data
+//   $cekdatabase = mysqli_query($conn, "SELECT * FROM user where username = '$user' and sandi = '$password' ");
+//   //hitung jumlah data
+//   $hitung = mysqli_num_rows($cekdatabase);
 
-  if ($hitung>0){
-    $_SESSION['log'] = 'True';
-    header('location:./pages/beranda.php');
-  } else {
-    echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
-  };
+//   if ($hitung>0){
+//     $_SESSION['log'] = 'True';
+//     header('location:./pages/beranda.php');
+//   } else {
+//     echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
+//   };
 
-};
+// };
 
 
 // Login dengan Password terenksripsi
-// if(isset($_POST['login'])){
-//     $user = $_POST['user'];
-//     $password = $_POST['password'];
+if(isset($_POST['login'])){
+    $user = $_POST['user'];
+    $password = $_POST['password'];
 
-//     //mencocokkan dengan data
-//     $cekdatabase = mysqli_query($conn, "SELECT * FROM user where username = '$user'");
+    //mencocokkan dengan data
+    $cekdatabase = mysqli_query($conn, "SELECT * FROM user where username = '$user'");
     
-//     //hitung jumlah data username
-//     if (mysqli_num_rows($cekdatabase)===1){
+    //hitung jumlah data username
+    if (mysqli_num_rows($cekdatabase)===1){
         
-//         $row = mysqli_fetch_assoc($cekdatabase);
-//         if(password_verify($password, $row["sandi"])){
-//             $_SESSION['log'] = 'True';
-//             $_SESSION['user'] = $_POST['user'];
-//             header('location:./pages/beranda.php');
-//             exit;
-//         } else {
-//         echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
-//         };
+        $row = mysqli_fetch_assoc($cekdatabase);
+        if(password_verify($password, $row["sandi"])){
+            $_SESSION['log'] = 'True';
+            $_SESSION['user'] = $_POST['user'];
+            header('location:./pages/beranda.php');
+            exit;
+        } else {
+        echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
+        };
     
 
-//     }else {
-//         echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
+    }else {
+        echo "<script>alert('Username atau Password yang anda masukkan salah!')</script>";
         
-//     };
+    };
 
-// };
+};
 
 
 if(!isset($_SESSION['log'])){

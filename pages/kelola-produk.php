@@ -18,7 +18,7 @@ $pengguna = $_SESSION['user'];
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   
   <title>
-    Material Dashboard 2 by Creative Tim
+    Kelola Produk - KASIRKU
   </title>
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -42,9 +42,9 @@ $pengguna = $_SESSION['user'];
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-        <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Cashier App</span>
+      <a class="navbar-brand m-0 d-flex" href="./beranda.php">
+        <span class="material-symbols-rounded text-light">store</span>
+        <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -69,18 +69,18 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Katalog</span>
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Other Pages</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
+               <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
@@ -108,9 +108,9 @@ $pengguna = $_SESSION['user'];
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Kelola Produk</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+          <h6 class="font-weight-bolder mb-0">Kelola Produk</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -123,7 +123,7 @@ $pengguna = $_SESSION['user'];
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -158,17 +158,22 @@ $pengguna = $_SESSION['user'];
       <!-- End -->
       <div class="row mb-5">
         <?php
-          $colors = ['primary', 'success', 'info', 'warning', 'danger', 'dark'];
+          $colors = ['primary', 'success', 'info', 'warning', 'danger'];
           $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
           $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
           while($data=mysqli_fetch_array($dataMenu)){
+            $id_menu = $data['id_menu'];
             $jenis_menu = $data['jenis_menu'];
             $removedColor = array_shift($colors);
             array_push($colors, $removedColor);
             $removedIcon = array_shift($icons);
             array_push($icons, $removedIcon);
         ?>
-          <form class="col-xl-3 col-sm-6 col-6 mb-xl-0" method="post">
+        <div class="col-xl-3 col-sm-6 col-6 mb-xl-0">
+          <button class="btn bg-gradient-dark mb-n4 mx-1 my-1 px-2 py-0 float-end" style="z-index: 200;" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_menu;?>">
+          x
+          </button>
+          <form method="post">
             <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
             <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
             <button class="btn bg-gradient-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
@@ -177,6 +182,28 @@ $pengguna = $_SESSION['user'];
               <?=$jenis_menu;?>
             </button>
           </form>
+        </div>
+        <!-- Modal Hapus Jenis Menu-->
+        <div class="modal fade" id="hapus<?=$id_menu;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
+                </div>
+                <div class="modal-body">
+                  <h6 class="modal-title" id="staticBackdropLabel">Tindakan ini akan menghapus data menu dengan jenis menu yang sama.</h6>
+                  <input type="text" class="form-control" value="<?=$id_menu;?>" name="id_menu">
+                  <input type="text" class="form-control" value="<?=$jenis_menu;?>" name="jenis_menu">
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn bg-gradient-success" name="hapus_jenis_menu">Iya</button>
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
         <?php
           };
         ?>
@@ -218,13 +245,10 @@ $pengguna = $_SESSION['user'];
                         $id_produk = $data['id_produk'];
                         $jenis_menu = $data['jenis_menu']; 
                         $nama_produk = $data['nama_produk'];
-                        $nama_produk_baru = $data['nama_produk'];
                         $harga = $data['harga']; 
                         $tgl_input = $data['tgl_input']; 
                         $gambar = $data['gambar'];
-                        if (strlen($nama_produk_baru) > 20) {
-                          $nama_produk_baru= substr($nama_produk_baru, 0, 25) . "...";
-                        }
+                        $nama_produk_baru = batasi_teks($nama_produk, 25);
                     ?>
                     <tr>
                       <td class="align-middle text-center text-sm">
@@ -234,7 +258,7 @@ $pengguna = $_SESSION['user'];
                         <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk_baru;?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">Rp. <?=number_format($harga,0,",",".");?></span>
+                        <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($harga,0,",",".");?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?=$tgl_input;?></span>
@@ -349,11 +373,9 @@ $pengguna = $_SESSION['user'];
                           $jenis_menu = $fetcharray['jenis_menu'];
                     ?>
                     <option value="<?=$jenis_menu;?>"><?=$jenis_menu;?></option>
-
-                    <?php
+                      <?php
                         }
-
-                    ?>
+                      ?>
                   </select>
                 </div>
                 <div class="input-group input-group-outline my-3">
@@ -416,7 +438,7 @@ $pengguna = $_SESSION['user'];
           </div>
           <div class="modal-body">
             <div class="input-group input-group-outline my-3">
-              <label class="form-label">Contoh : Makanan Tradisional</label>
+              <label class="form-label">Contoh : Paket Keluarga</label>
               <input type="text" class="form-control" name="jenis_menu" required>
             </div>
           </div>
