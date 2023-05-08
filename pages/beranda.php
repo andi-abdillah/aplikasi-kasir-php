@@ -43,7 +43,7 @@ $pengguna = $_SESSION['user'];
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">store</span>
+        <span class="material-symbols-rounded text-light">dvr</span>
         <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
       </a>
     </div>
@@ -86,11 +86,11 @@ $pengguna = $_SESSION['user'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/profile.html">
+          <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
+               <i class="material-icons opacity-10">event_note</i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
         </li>
       </ul>
@@ -144,7 +144,7 @@ $pengguna = $_SESSION['user'];
       <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('../assets/img/illustrations/food-dasboard-backround.jpg');">
         <span class="mask bg-gradient-primary opacity-6"></span>
       </div>
-      <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="card card-body mx-3 mx-md-4 mt-n6 mb-5">
         <div class="h-100 text-center">
           <h3 class="mt-n8 text-capitalize d-flex align-items-center justify-content-center text-white">
             Selamat Datang Kembali <?=$pengguna;?>
@@ -158,7 +158,7 @@ $pengguna = $_SESSION['user'];
           <div class="mb-5 ps-3">
             <h3 class="my-4 text-center">Sedang Populer</h3>
           </div>
-          <div class="row">
+          <div class="row ">
             <?php
               $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
               $i = 0;
@@ -171,10 +171,10 @@ $pengguna = $_SESSION['user'];
                   $data_gambar = $nama_menu->gambar;
             ?>
                   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 d-flex">
-                    <div class="card card-blog card-plain mb-4">
+                    <div class="card card-blog card-plain mb-4 w-100">
                       <div class="card-header p-0 mt-n4 mx-3">
                         <a class="d-block shadow-xl border-radius-xl">
-                          <img src="../assets/pictures/<?=$data_gambar?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                          <img src="../assets/img/products/<?=$data_gambar?>" alt="img-blur-shadow" class="img-fluid w-100 shadow border-radius-xl">
                         </a>
                       </div>
                       <div class="card-body p-3 position-relative">
@@ -187,7 +187,7 @@ $pengguna = $_SESSION['user'];
                           <?=$data_menu?>
                         </p>
                         <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;">
-                          <a href="./katalog.php" class="btn btn-outline-primary btn-sm mb-0 mx-4">Lihat</a>
+                          <a href="./katalog.php" class="btn btn-outline-primary btn-sm mb-0 mx-3">Lihat</a>
                         </div>
                       </div>
                     </div>

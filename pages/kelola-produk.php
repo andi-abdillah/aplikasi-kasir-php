@@ -43,7 +43,7 @@ $pengguna = $_SESSION['user'];
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">store</span>
+        <span class="material-symbols-rounded text-light">dvr</span>
         <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
       </a>
     </div>
@@ -86,11 +86,11 @@ $pengguna = $_SESSION['user'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/profile.html">
+          <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
+               <i class="material-icons opacity-10">event_note</i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
         </li>
       </ul>
@@ -135,7 +135,6 @@ $pengguna = $_SESSION['user'];
                 </div>
               </a>
             </li>
-
           </ul>
         </div>
       </div>
@@ -143,16 +142,9 @@ $pengguna = $_SESSION['user'];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <!-- Button trigger modal -->
-      <div class="d-flex justify-content-end">
-        <button class="btn bg-gradient-dark d-flex align-items-center justify-content-center mx-2 px-3" data-bs-toggle="modal" data-bs-target="#input_jenis_menu">
-          <span class="material-symbols-rounded">add_circle</span>&nbsp;
-          Jenis Menu
-        </button>
-      </div>
-      <div style=" position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9999;">
-        <button class="btn bg-gradient-success d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
-          <span class="material-symbols-rounded">add_circle</span>&nbsp;
-          Menu
+      <div style="position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9999;">
+        <button class="btn bg-gradient-primary d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
+          <span class="material-symbols-rounded">playlist_add</span>
         </button>
       </div>
       <!-- End -->
@@ -160,8 +152,8 @@ $pengguna = $_SESSION['user'];
         <?php
           $colors = ['primary', 'success', 'info', 'warning', 'danger'];
           $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
-          $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
-          while($data=mysqli_fetch_array($dataMenu)){
+          $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+          while($data=mysqli_fetch_array($dataJenisMenu)){
             $id_menu = $data['id_menu'];
             $jenis_menu = $data['jenis_menu'];
             $removedColor = array_shift($colors);
@@ -170,13 +162,13 @@ $pengguna = $_SESSION['user'];
             array_push($icons, $removedIcon);
         ?>
         <div class="col-xl-3 col-sm-6 col-6 mb-xl-0">
-          <button class="btn bg-gradient-dark mb-n4 mx-1 my-1 px-2 py-0 float-end" style="z-index: 200;" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_menu;?>">
+          <button class="btn bg-gradient-<?=$removedColor;?> mb-n4 mx-1 my-1 px-2 py-0 float-end" style="z-index: 200;" data-bs-toggle="modal" data-bs-target="#hapusJenisMenu<?=$id_menu;?>">
           x
           </button>
           <form method="post">
             <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
             <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
-            <button class="btn bg-gradient-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
+            <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
             name="pilih_jenis_menu2">
               <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
               <?=$jenis_menu;?>
@@ -184,7 +176,7 @@ $pengguna = $_SESSION['user'];
           </form>
         </div>
         <!-- Modal Hapus Jenis Menu-->
-        <div class="modal fade" id="hapus<?=$id_menu;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="hapusJenisMenu<?=$id_menu;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
               <div class="modal-content">
@@ -193,8 +185,8 @@ $pengguna = $_SESSION['user'];
                 </div>
                 <div class="modal-body">
                   <h6 class="modal-title" id="staticBackdropLabel">Tindakan ini akan menghapus data menu dengan jenis menu yang sama.</h6>
-                  <input type="text" class="form-control" value="<?=$id_menu;?>" name="id_menu">
-                  <input type="text" class="form-control" value="<?=$jenis_menu;?>" name="jenis_menu">
+                  <input type="hidden" class="form-control" value="<?=$id_menu;?>" name="id_menu">
+                  <input type="hidden" class="form-control" value="<?=$jenis_menu;?>" name="jenis_menu">
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn bg-gradient-success" name="hapus_jenis_menu">Iya</button>
@@ -207,6 +199,34 @@ $pengguna = $_SESSION['user'];
         <?php
           };
         ?>
+        <div class="col-xl-3 col-sm-6 col-6 mb-xl-0 d-flex">
+          <button class="btn btn-outline-dark d-flex justify-content-center align-items-center w-100" data-bs-toggle="modal" data-bs-target="#input_jenis_menu">
+            <span class="material-symbols-rounded">add</span>
+            Jenis Menu
+          </button>
+        </div>
+        <!-- Modal Input Jenis Menu -->
+        <div class="modal fade" id="input_jenis_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <form role="form" class="text-start" method="post">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Masukkan Jenis Menu Baru</h5>
+                </div>
+                <div class="modal-body">
+                  <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Contoh : Paket Keluarga</label>
+                    <input type="text" class="form-control" name="jenis_menu" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn bg-gradient-success" name="input_jenis_menu">Tambahkan</button>
+                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
       <?php
         $data_jenis_menu= mysqli_query($conn, "SELECT COUNT(*) FROM menu WHERE jenis_menu = '$pilihan_jenis_menu'");
@@ -265,19 +285,18 @@ $pengguna = $_SESSION['user'];
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                          <img class="border-radius-xl" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
+                          <img class="border-radius-xl" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
                         </span>
                       </td>
                       <td class="text-end">
                         <button class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#ubah<?=$id_produk;?>">
                           <i class="material-icons text-sm me-2">edit</i>Edit
                         </button>
-                        <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_produk;?>">
+                        <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapusMenu<?=$id_produk;?>">
                           <i class="material-icons text-sm me-2">delete</i>Hapus
                         </button>
                       </td>
                     </tr>
-
                     <!-- Modal Ubah Menu -->
                     <div class="modal fade" id="ubah<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog">
@@ -300,12 +319,9 @@ $pengguna = $_SESSION['user'];
                                 <label class="form-label"></label>
                                 <input type="date" class="form-control" value="<?=$tgl_input;?>" name="tanggal" required>
                               </div>
-                              <div class="input-group input-group-outline my-3">
-                                <label class="form-label"></label>
-                                <input type="file" class="form-control" name="file_baru">
-                              </div>
-                              <div class="input-group input-group-outline my-3">
-                                Gambar Saat Ini&nbsp;&nbsp; : &nbsp;<img class="rounded" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
+                              <div class="input-group input-group-outline my-3 d-flex align-items-center">
+                                <input type="file" class="form-control me-4" name="file_baru">
+                                Gambar Saat Ini&nbsp;&nbsp; : &nbsp;&nbsp;<img class="rounded" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="80px" height="80px">
                               </div>
                               <input type="hidden" class="form-control" value="<?=$gambar;?>" name="file">
                             </div>
@@ -318,7 +334,7 @@ $pengguna = $_SESSION['user'];
                       </div>
                     </div>
                     <!-- Modal Hapus Menu-->
-                    <div class="modal fade" id="hapus<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="hapusMenu<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
                           <div class="modal-content">
@@ -335,10 +351,8 @@ $pengguna = $_SESSION['user'];
                         </form>
                       </div>
                     </div>
-                    
                     <?php
                       };
-
                     ?>
                   </tbody>
                 </table>
@@ -354,7 +368,6 @@ $pengguna = $_SESSION['user'];
       <?php 
         }
       ?>
-
       <!-- Modal Input Menu Baru -->
       <div class="modal fade" id="input_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -427,29 +440,6 @@ $pengguna = $_SESSION['user'];
   <!-- Bootstrap 5 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
-
-  <!-- Modal Input Jenis Menu -->
-  <div class="modal fade" id="input_jenis_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <form role="form" class="text-start" method="post">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Masukkan Jenis Menu Baru</h5>
-          </div>
-          <div class="modal-body">
-            <div class="input-group input-group-outline my-3">
-              <label class="form-label">Contoh : Paket Keluarga</label>
-              <input type="text" class="form-control" name="jenis_menu" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn bg-gradient-success" name="input_jenis_menu">Tambahkan</button>
-            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Sign Out Modal-->
   <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

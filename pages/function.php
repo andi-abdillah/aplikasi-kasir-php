@@ -98,7 +98,7 @@ if(isset($_POST['input_jenis_menu'])){
 if(isset($_POST['hapus_jenis_menu'])){
   $id_menu = $_POST['id_menu'];
   $jenis_menu = $_POST['jenis_menu'];
-  $folder = '../assets/pictures/';
+  $folder = '../assets/img/products/';
 
   $hapus_jenis_menu = mysqli_query($conn, "DELETE FROM jenis_menu WHERE id_menu = '$id_menu'");
   $data_menu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$jenis_menu'");
@@ -127,7 +127,7 @@ if(isset($_POST['input_menu'])){
   $file = $_FILES['file']['name'];
   $tmp_name = $_FILES['file']['tmp_name'];
 
-  move_uploaded_file($tmp_name, '../assets/pictures/'.$file);
+  move_uploaded_file($tmp_name, '../assets/img/products/'.$file);
   $tambah = mysqli_query($conn,"INSERT INTO menu (jenis_menu, nama_produk, harga, tgl_input, gambar) VALUES('$jenis_menu', '$nama_produk', '$harga', '$tanggal', '$file')");
   if($tambah){
     header('location:./kelola-produk.php');
@@ -146,7 +146,7 @@ if(isset($_POST['ubah_menu'])){
   $file= $_POST['file'];
   $file_baru = $_FILES['file_baru']['name'];
   $tmp_name = $_FILES['file_baru']['tmp_name'];
-  $folder = '../assets/pictures/';
+  $folder = '../assets/img/products/';
 
   if($file_baru != ''){
     $update= mysqli_query($conn, "UPDATE menu SET nama_produk='$nama_produk', harga='$harga', tgl_input='$tanggal', gambar='$file_baru' WHERE id_produk='$id_produk'");
@@ -173,7 +173,7 @@ if(isset($_POST['ubah_menu'])){
 if(isset($_POST['hapus_menu'])){
   $id_produk = $_POST['id_produk'];
   $file = $_POST['file'];
-  $folder = '../assets/pictures/';
+  $folder = '../assets/img/products/';
   if($file) {
     unlink($folder.$file);
   }
@@ -222,9 +222,9 @@ if(isset($_POST['konfirmasi_pesanan'])){
   $nama_pembeli = $_POST['nama_pembeli'];
   $tanggal = $_POST['tanggal'];
   
-  $update= mysqli_query($conn, "UPDATE pesanan SET nama_pembeli='$nama_pembeli', tgl_transaksi='$tanggal'");
+  $update= mysqli_query($conn, "UPDATE pesanan SET nama_pembeli='$nama_pembeli', tanggal='$tanggal'");
   if($update){
-    $pindahdata = mysqli_query($conn, "INSERT INTO transaksi (nama_pembeli, nama_produk, tgl_transaksi, harga, jumlah, subtotal) SELECT nama_pembeli, nama_produk, tgl_transaksi, harga, jumlah, subtotal FROM pesanan");
+    $pindahdata = mysqli_query($conn, "INSERT INTO transaksi (nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal) SELECT nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal FROM pesanan");
     $hapusdata = mysqli_query($conn, "TRUNCATE TABLE pesanan");
     if($pindahdata&&$hapusdata){
       header('location:./katalog.php');
@@ -249,5 +249,54 @@ if(isset($_POST['hapus_transaksi'])){
   }else {
     echo 'Gagal';
     header('location:./riwayat-transaksi.php');
+  }
+}
+
+// Input Data Pengeluaran
+if(isset($_POST['input_pengeluaran'])){
+  $deskripsi = $_POST['deskripsi'];
+  $tanggal = $_POST['tanggal'];
+  $harga = $_POST['harga'];
+  $jumlah = $_POST['jumlah'];
+  $subtotal = $harga * $jumlah;
+  
+  $tambah = mysqli_query($conn,"INSERT INTO pengeluaran (deskripsi, tanggal, harga, jumlah, subtotal) VALUES('$deskripsi', '$tanggal', '$harga', '$jumlah', '$subtotal')");
+  if($tambah){
+    header('location:./pengeluaran.php');
+  }else {
+    echo 'Gagal';
+    header('location:./pengeluaran.php');
+  }
+}
+
+
+// Ubah Data Pengeluaran
+if(isset($_POST['ubah_pengeluaran'])){
+  $id_pengeluaran = $_POST['id_pengeluaran'];
+  $deskripsi = $_POST['deskripsi'];
+  $tanggal = $_POST['tanggal'];
+  $harga = $_POST['harga'];
+  $jumlah = $_POST['jumlah'];
+  $subtotal = $harga * $jumlah;
+
+  $update= mysqli_query($conn, "UPDATE pengeluaran SET deskripsi='$deskripsi', tanggal='$tanggal', harga='$harga', jumlah='$jumlah', subtotal='$subtotal' WHERE id_pengeluaran='$id_pengeluaran'");
+    if($update){
+      header('location:./pengeluaran.php');
+    }else {
+      echo 'Gagal';
+      header('location:./pengeluaran.php');
+    }
+}
+
+// Hapus Data Pengeluaran
+if(isset($_POST['hapus_pengeluaran'])){
+  $id_pengeluaran = $_POST['id_pengeluaran'];
+  
+  $hapus = mysqli_query($conn, "DELETE FROM pengeluaran WHERE id_pengeluaran = '$id_pengeluaran'");
+  if($hapus){
+    header('location:./pengeluaran.php');
+  }else {
+    echo 'Gagal';
+    header('location:./pengeluaran.php');
   }
 }

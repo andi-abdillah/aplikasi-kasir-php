@@ -38,6 +38,9 @@ $pengguna = $_SESSION['user'];
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
   <style type="text/css">
+    .menu{
+      transition: transform 0.3s ease;
+    }
     .menu:hover{
         box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.04);
         transform: scale(1.03);
@@ -55,7 +58,7 @@ $pengguna = $_SESSION['user'];
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">store</span>
+        <span class="material-symbols-rounded text-light">dvr</span>
         <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
       </a>
     </div>
@@ -81,7 +84,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white active bg-gradient-primary" href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Katalog</span>
           </a>
@@ -98,11 +101,11 @@ $pengguna = $_SESSION['user'];
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="../pages/profile.html">
+          <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
+               <i class="material-icons opacity-10">event_note</i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
         </li>
       </ul>
@@ -147,28 +150,27 @@ $pengguna = $_SESSION['user'];
                 </div>
               </a>
             </li>
-
           </ul>
         </div>
       </div>
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row mb-2">
+      <div class="row">
         <?php
           $colors = ['primary', 'success', 'info', 'warning', 'danger'];
           $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
-          $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
-          while($data=mysqli_fetch_array($dataMenu)){
+          $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+          while($data=mysqli_fetch_array($dataJenisMenu)){
             $jenis_menu = $data['jenis_menu'];
             $removedColor = array_shift($colors);
             array_push($colors, $removedColor);
             $removedIcon = array_shift($icons);
             array_push($icons, $removedIcon);
         ?>
-          <form class="col-xl-3 col-sm-6 col-6 mb-xl-0" method="post">
+          <form class="col-xl-3 col-sm-6 col-6 mb-xl-0 d-flex align-items-stretch" method="post">
             <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
-            <button class="btn bg-gradient-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
+            <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
             name="pilih_jenis_menu">
               <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
               <?=$jenis_menu;?>
@@ -178,12 +180,11 @@ $pengguna = $_SESSION['user'];
           };
         ?>
       </div>
-      <div class="row mt-4">
-        <h2 class="text-center mb-7"><?=$pilihan_jenis_menu;?></h2>
+      <div class="row">
+        <h2 class="text-center my-4"><?=$pilihan_jenis_menu;?></h2>
         <?php
           $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu='$pilihan_jenis_menu'");
           $i = 1;
-          
           if(mysqli_num_rows($dataMenu) != 0) {
             while($data=mysqli_fetch_array($dataMenu)){
               $id_produk = $data['id_produk'];
@@ -193,17 +194,24 @@ $pengguna = $_SESSION['user'];
               $gambar = $data['gambar'];
         ?>
         <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch">
-          <div class="card menu z-index-2 py-0 shadow-dark" style="border-radius: 35px;">
-            <div class="card-header p-0 position-relative mt-n7 mx-3 z-index-2 bg-transparent">
-              <img class="bg-gradient-primary shadow-dark rounded-circle" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" height="100%" width="100%">
+          <div class="card card-blog card-plain mb-4">
+            <div class="card-header p-0 mt-n4 mx-3">
+              <a class="d-block shadow-xl border-radius-xl">
+                <img src="../assets/img/products/<?=$gambar?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+              </a>
             </div>
-            <div class="card-body pb-0 d-flex flex-column">
-              <h6 class="text-center my-auto pb-3"><?=$nama_produk;?></h6>
-              <hr class="dark horizontal mt-auto">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="my-auto"><?=format_angka($harga);?></h6>
-                <button class="btn bg-gradient-dark px-3 py-2 my-auto d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#pesan_menu<?=$id_produk;?>">
-                  <i class="material-symbols-rounded">add_shopping_cart</i>
+            <div class="card-body p-3 position-relative">
+              <a href="javascript:;">
+                <h5>
+                  Rp <?=number_format($harga,0,",",".");?>
+                </h5>
+              </a>
+              <p class="mb-4 text-sm pb-2">
+                <?=$nama_produk?>
+              </p>
+              <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;" data-bs-toggle="modal" data-bs-target="#pesan_menu<?=$id_produk;?>">
+                <button class="btn btn-outline-primary btn-sm mb-0 mx-3 d-flex align-items-center">
+                  <i class="material-symbols-rounded"  style="font-size: 20px;">add</i>
                 </button>
               </div>
             </div>
@@ -226,11 +234,15 @@ $pengguna = $_SESSION['user'];
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>
                     <input type="text" class="form-control" value="Rp <?=number_format($harga,0,",",".");?>" disabled>
-                    <input type="hidden" value="<?=$harga;?>" name="harga">
+                    <input type="hidden" value="<?=$harga;?>" id="nilai1<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" name="harga">
                   </div>
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Jumlah</label>
-                    <input type="number" class="form-control" name="jumlah" required>
+                    <input type="number" class="form-control" id="nilai2<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" name="jumlah" required>
+                  </div>
+                  <div class="input-group input-group-outline my-3">
+                    <label class="form-label"></label>
+                    <input type="text" class="form-control" id="hasil<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" readonly>
                   </div>
                     <input type="hidden" value="<?=$gambar;?>" name="gambar">
                 </div>
@@ -249,12 +261,10 @@ $pengguna = $_SESSION['user'];
           <h3>Data Tidak Ditemukan!</h3>
           <a href="./kelola-produk.php" class="btn bg-gradient-info w-50 my-2">Tambahkan Data</a>
         </div>
-        
         <?php
           }
         ?>
       </div>
-
       <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
           <i class="material-symbols-rounded py-2 text-primary">shopping_cart</i>
@@ -274,8 +284,8 @@ $pengguna = $_SESSION['user'];
           <hr class="horizontal dark my-1">
           <div class="card-body pt-sm-3 pt-0">
             <?php
-              $dataMenu = mysqli_query($conn, "SELECT * FROM pesanan");
-              while($data=mysqli_fetch_array($dataMenu)){
+              $dataPesanan = mysqli_query($conn, "SELECT * FROM pesanan");
+              while($data=mysqli_fetch_array($dataPesanan)){
                 $id_pesanan = $data['id_pesanan'];
                 $nama_pembeli = $data['nama_pembeli']; 
                 $nama_produk = $data['nama_produk']; 
@@ -296,7 +306,7 @@ $pengguna = $_SESSION['user'];
                   </form>
                 </div>
                 <div class="mx-2">
-                  <img class="bg-gradient-primary shadow-dark rounded-circle" src="../assets/pictures/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" height="30px" width="30px">
+                  <img class="bg-gradient-primary shadow-dark rounded-circle" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" height="30px" width="30px">
                 </div>
                 <div class="mx-1">
                   <span class="text-secondary text-xs font-weight-bold"><?=$jumlah;?></span>
@@ -334,7 +344,7 @@ $pengguna = $_SESSION['user'];
                 <label class="form-label"></label>
                   <input type="date" class="form-control" name="tanggal" required>
               </div>
-              <button class="btn bg-gradient-info w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
+              <button class="btn btn-outline-primary w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
             </form>
           </div>
         </div>
@@ -354,6 +364,20 @@ $pengguna = $_SESSION['user'];
         damping: '0.5'
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+    function formatRupiah(angka) {
+      // Menggunakan built-in function toLocaleString() pada angka dengan bahasa Indonesia dan menghilangkan angka di belakang koma
+      return angka.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    function hitungPerkalian(id) {
+      let nilai1 = document.getElementById("nilai1"+id).value;
+      let nilai2 = document.getElementById("nilai2"+id).value;
+      if(nilai1&&nilai2) {
+        let hasil = nilai1 * nilai2;
+        document.getElementById("hasil"+id).value = formatRupiah(hasil);
+        return;
+      }
+      document.getElementById("hasil"+id).value = formatRupiah(nilai1);
     }
   </script>
   <!-- Github buttons -->
