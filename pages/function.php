@@ -74,7 +74,7 @@ if(isset($_POST['pilih_jenis_menu'])){
   $pilihan_jenis_menu = $_POST['jenis_menu'];
 }
 
-// Mengubah Warna Header Tabel
+// Mengubah Warna Header Tabel dan Mengubah Daftar Menu yang Tampil
 $warna_menu = 'primary';
 if(isset($_POST['pilih_jenis_menu2'])){
     $pilihan_jenis_menu = $_POST['jenis_menu'];
@@ -193,8 +193,10 @@ if(isset($_POST['input_pesanan'])){
   $jumlah = $_POST['jumlah'];
   $subtotal = $harga * $jumlah;
   $gambar = $_POST['gambar'];
+  $tanggal_sekarang = date("YmdH-i");
+  $nomor_transaksi = "OWJ".$tanggal_sekarang;
   
-  $tambah = mysqli_query($conn,"INSERT INTO pesanan (nama_produk, harga, jumlah, subtotal, gambar) VALUES('$nama_produk', '$harga', '$jumlah', '$subtotal', '$gambar')");
+  $tambah = mysqli_query($conn,"INSERT INTO pesanan (nomor_transaksi, nama_produk, harga, jumlah, subtotal, gambar) VALUES('$nomor_transaksi', '$nama_produk', '$harga', '$jumlah', '$subtotal', '$gambar')");
   if($tambah){
     header('location:./katalog.php');
   }else {
@@ -219,12 +221,13 @@ if(isset($_POST['hapus_pesanan'])){
 
 //Pindah Data Pesanan Ke Riwayat Transaksi
 if(isset($_POST['konfirmasi_pesanan'])){
+  $nomor_transaksi = $_POST['kwitansi'];
   $nama_pembeli = $_POST['nama_pembeli'];
   $tanggal = $_POST['tanggal'];
   
-  $update= mysqli_query($conn, "UPDATE pesanan SET nama_pembeli='$nama_pembeli', tanggal='$tanggal'");
+  $update= mysqli_query($conn, "UPDATE pesanan SET nomor_transaksi='$nomor_transaksi', nama_pembeli='$nama_pembeli', tanggal='$tanggal'");
   if($update){
-    $pindahdata = mysqli_query($conn, "INSERT INTO transaksi (nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal) SELECT nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal FROM pesanan");
+    $pindahdata = mysqli_query($conn, "INSERT INTO transaksi (nomor_transaksi, nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal) SELECT nomor_transaksi, nama_pembeli, nama_produk, tanggal, harga, jumlah, subtotal FROM pesanan");
     $hapusdata = mysqli_query($conn, "TRUNCATE TABLE pesanan");
     if($pindahdata&&$hapusdata){
       header('location:./katalog.php');

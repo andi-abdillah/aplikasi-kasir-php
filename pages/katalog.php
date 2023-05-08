@@ -3,6 +3,13 @@ require './function.php';
 require './cek-login.php';
 
 $pengguna = $_SESSION['user'];
+$kwitansi = "";
+$result = mysqli_query($conn, "SELECT nomor_transaksi FROM pesanan LIMIT 1");
+if (mysqli_num_rows($result) > 0) {
+  $row = mysqli_fetch_array($result);
+  $kwitansi = strval($row[0]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -284,6 +291,9 @@ $pengguna = $_SESSION['user'];
           <hr class="horizontal dark my-1">
           <div class="card-body pt-sm-3 pt-0">
             <?php
+              $result = mysqli_query($conn, 'SELECT SUM(subtotal) AS total FROM pesanan'); 
+              $row = mysqli_fetch_assoc($result); 
+              $total = $row['total'];
               $dataPesanan = mysqli_query($conn, "SELECT * FROM pesanan");
               while($data=mysqli_fetch_array($dataPesanan)){
                 $id_pesanan = $data['id_pesanan'];
@@ -327,25 +337,34 @@ $pengguna = $_SESSION['user'];
             ?>
           </div>
           <div class="card-footer pt-sm-3">
-            <div class="text-start pt-2">
             <?php
-              $result = mysqli_query($conn, 'SELECT SUM(subtotal) AS total FROM pesanan'); 
-              $row = mysqli_fetch_assoc($result); 
-              $total = $row['total'];
+              if ($kwitansi) {
             ?>
-              <p class="fw-bolder mb-0">Total : Rp <?=number_format($total,0,",",".");?></p>
-            </div>
-            <form role="form" action="" method="post" enctype="multipart/form-data">
-              <div class="input-group input-group-outline my-3">
-                <label class="form-label">Nama Pembeli</label>
-                  <input type="text" class="form-control" name="nama_pembeli" required>
+              <div class="text-start pt-2">
+                <p class="fw-bolder mb-0">Total : Rp <?=number_format($total,0,",",".");?></p>
               </div>
-              <div class="input-group input-group-outline my-3">
-                <label class="form-label"></label>
-                  <input type="date" class="form-control" name="tanggal" required>
-              </div>
-              <button class="btn btn-outline-primary w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
-            </form>
+              <form role="form" action="" method="post" enctype="multipart/form-data">
+                <div class="input-group input-group-outline my-3">
+                <input type="hidden" value="<?=$kwitansi?>" name="kwitansi">
+                  <label class="form-label">Nama Pembeli</label>
+                    <input type="text" class="form-control" name="nama_pembeli" required>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                  <label class="form-label"></label>
+                    <input type="date" class="form-control" name="tanggal" required>
+                </div>
+                <button class="btn btn-outline-primary w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
+              </form>
+              <form id="myForm" action="invoice.php" method="get" target="_blank">
+                <input type="hidden" value="<?=$kwitansi?>" name="kwitansi">
+              </form>
+              <a href="#" onclick="document.getElementById('myForm').submit(); return false;"
+              class="btn btn-outline-info w-100 mb-3 d-flex align-items-center justify-content-center">
+                <span class="material-symbols-rounded me-1">picture_as_pdf</span>Invoice
+              </a>
+            <?php
+              }
+            ?>
           </div>
         </div>
       </div>
@@ -379,6 +398,14 @@ $pengguna = $_SESSION['user'];
       }
       document.getElementById("hasil"+id).value = formatRupiah(nilai1);
     }
+    function submitForm() {
+      document.getElementById("formKwitansi").submit();
+    }
+    window.onload = function() {
+      var form = document.getElementById('myForm');
+      form.target = '_blank'; // membuka halaman proses.php di tab baru
+    };
+</script>
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
