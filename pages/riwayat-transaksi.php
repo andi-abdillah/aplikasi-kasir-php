@@ -93,6 +93,14 @@ $pengguna = $_SESSION['user'];
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="./laporan.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+               <i class="material-icons opacity-10">menu_book</i>
+            </div>
+            <span class="nav-link-text ms-1">laporan Keuangan</span>
+          </a>
+        </li>
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
@@ -170,8 +178,9 @@ $pengguna = $_SESSION['user'];
       </form>
       <div class="card mt-4 mb-5">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-          <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-            <h6 class="text-white text-capitalize ps-3">Riwayat Transaksi</h6>
+          <div class="row bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+            <h6 class="col text-white text-capitalize ps-3">Riwayat Transaksi</h6>
+            <h6 class="col text-end text-white text-capitalize ps-3">Tanggal : <?=$tanggal_dipilih;?></h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">
