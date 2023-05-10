@@ -69,14 +69,9 @@ if (mysqli_num_rows($result) > 0) {
 
 }
 
-// Mengubah Daftar Menu yang Tampil
-if(isset($_POST['pilih_jenis_menu'])){
-  $pilihan_jenis_menu = $_POST['jenis_menu'];
-}
-
-// Mengubah Warna Header Tabel dan Mengubah Daftar Menu yang Tampil
+// Mengubah Warna dan Mengubah Daftar Menu yang Tampil
 $warna_menu = 'primary';
-if(isset($_POST['pilih_jenis_menu2'])){
+if(isset($_POST['pilih_jenis_menu'])){
     $pilihan_jenis_menu = $_POST['jenis_menu'];
     $warna_menu = $_POST['warna_menu'];
 }
@@ -193,7 +188,8 @@ if(isset($_POST['input_pesanan'])){
   $jumlah = $_POST['jumlah'];
   $subtotal = $harga * $jumlah;
   $gambar = $_POST['gambar'];
-  $tanggal_sekarang = date("YmdH-i");
+  date_default_timezone_set('Asia/Jakarta');
+  $tanggal_sekarang = date("-YmdHi");
   $nomor_transaksi = "OWJ".$tanggal_sekarang;
   
   $tambah = mysqli_query($conn,"INSERT INTO pesanan (nomor_transaksi, nama_produk, harga, jumlah, subtotal, gambar) VALUES('$nomor_transaksi', '$nama_produk', '$harga', '$jumlah', '$subtotal', '$gambar')");

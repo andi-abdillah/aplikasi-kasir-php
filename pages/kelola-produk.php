@@ -151,7 +151,7 @@ $pengguna = $_SESSION['user'];
     <div class="container-fluid py-4">
       <!-- Button trigger modal -->
       <div style="position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9999;">
-        <button class="btn bg-gradient-primary d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
+        <button class="btn bg-gradient-<?=$warna_menu?> d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
           <span class="material-symbols-rounded">playlist_add</span>
         </button>
       </div>
@@ -177,7 +177,7 @@ $pengguna = $_SESSION['user'];
             <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
             <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
             <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
-            name="pilih_jenis_menu2">
+            name="pilih_jenis_menu">
               <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
               <?=$jenis_menu;?>
             </button>
@@ -385,19 +385,9 @@ $pengguna = $_SESSION['user'];
                 <h5 class="modal-title" id="staticBackdropLabel">Tambahkan Menu Baru</h5>
               </div>
               <div class="modal-body">
-                <span>Pilih Jenis Menu :</span>
                 <div class="input-group input-group-outline my-3">
-                  <select name="jenis_menu" class="form-control">
-                    <?php
-                      $ambildata = mysqli_query($conn, "SELECT * FROM jenis_menu");
-                        while($fetcharray = mysqli_fetch_array($ambildata)){
-                          $jenis_menu = $fetcharray['jenis_menu'];
-                    ?>
-                    <option value="<?=$jenis_menu;?>"><?=$jenis_menu;?></option>
-                      <?php
-                        }
-                      ?>
-                  </select>
+                  <label class="form-label"></label>
+                  <input type="text" class="form-control" value="<?=$pilihan_jenis_menu?>" name="jenis_menu" readonly>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Nama Produk</label>
@@ -409,7 +399,7 @@ $pengguna = $_SESSION['user'];
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
-                  <input type="date" class="form-control" name="tanggal" required>
+                  <input type="date" class="form-control" value="<?=date("Y-m-d");?>" name="tanggal" required>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>

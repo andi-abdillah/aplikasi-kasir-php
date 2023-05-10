@@ -195,8 +195,6 @@ $pengguna = $_SESSION['user'];
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Nama Produk</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    Tanggal</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Harga</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Jumlah</th>
@@ -209,31 +207,43 @@ $pengguna = $_SESSION['user'];
                 <?php
                   $dataMenu = mysqli_query($conn, "SELECT * FROM transaksi WHERE tanggal='$tanggal_dipilih'");
                   $result = mysqli_query($conn, "SELECT SUM(subtotal) AS total FROM transaksi WHERE tanggal='$tanggal_dipilih'"); 
-                  $row = mysqli_fetch_assoc($result); 
+                  $row = mysqli_fetch_assoc($result);
+                  $nama_pembeli = "";
                   $total = $row['total'];
                   $i = 1;
                   while($data=mysqli_fetch_array($dataMenu)){
                     $id_transaksi = $data['id_transaksi'];
-                    $nama_pembeli = $data['nama_pembeli']; 
                     $nama_produk = $data['nama_produk'];
                     $nama_produk_baru = batasi_teks($nama_produk, 25);
-                    $tanggal = $data['tanggal'];
                     $harga = $data['harga']; 
                     $jumlah = $data['jumlah']; 
                     $subtotal = $data['subtotal']; 
                 ?>
                 <tr>
-                  <td class="align-middle text-center text-sm">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$nama_pembeli;?></span>
-                  </td>
+                    <?php
+                    if($nama_pembeli != $data['nama_pembeli']){
+                      $nama_pembeli = $data['nama_pembeli'];
+                    ?>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?=$nama_pembeli;?></span>
+                      </td>
+                    <?php
+                    } else{
+                    ?>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-xs font-weight-bold"></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"></span>
+                      </td>
+                    <?php
+                    }
+                    ?>
                   <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk_baru;?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$tanggal;?></span>
                   </td>
                   <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($harga,0,",",".");?></span>

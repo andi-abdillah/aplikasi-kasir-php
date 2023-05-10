@@ -168,7 +168,7 @@ $pengguna = $_SESSION['user'];
                   </div>
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>
-                    <input type="date" class="form-control" name="tanggal" required>
+                    <input type="date" class="form-control" value="<?=date("Y-m-d");?>" name="tanggal" required>
                   </div>
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Harga</label>
@@ -236,8 +236,6 @@ $pengguna = $_SESSION['user'];
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Deskripsi</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    Tanggal</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Harga</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Jumlah</th>
@@ -257,7 +255,6 @@ $pengguna = $_SESSION['user'];
                     $id_pengeluaran = $data['id_pengeluaran'];
                     $deskripsi = $data['deskripsi']; 
                     $deskripsi_baru = batasi_teks($deskripsi, 25);
-                    $tanggal = $data['tanggal'];
                     $harga = $data['harga']; 
                     $jumlah = $data['jumlah']; 
                     $subtotal = $data['subtotal']; 
@@ -268,9 +265,6 @@ $pengguna = $_SESSION['user'];
                   </td>
                   <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold"><?=$deskripsi_baru;?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$tanggal;?></span>
                   </td>
                   <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($harga,0,",",".");?></span>

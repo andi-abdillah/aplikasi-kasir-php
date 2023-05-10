@@ -211,7 +211,7 @@ $pengguna = $_SESSION['user'];
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
           <div class="row bg-gradient-dark shadow-info border-radius-lg pt-4 pb-3">
             <h6 class="col text-white text-capitalize ps-3">Laporan Keuangan</h6>
-            <h6 class="col text-end text-white text-capitalize ps-3">Bulan : <?=date("M Y", strtotime($bulan_dipilih));?></h6>
+            <h6 class="col text-end text-white text-capitalize ps-3">Bulan : <?php echo $bulan_dipilih ? date("M Y", strtotime($bulan_dipilih)) : '';?></h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">

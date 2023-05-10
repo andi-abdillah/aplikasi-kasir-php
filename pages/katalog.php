@@ -185,6 +185,7 @@ if (mysqli_num_rows($result) > 0) {
         ?>
           <form class="col-xl-3 col-sm-6 col-6 mb-xl-0 d-flex align-items-stretch" method="post">
             <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
+            <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
             <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
             name="pilih_jenis_menu">
               <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
@@ -209,7 +210,7 @@ if (mysqli_num_rows($result) > 0) {
               $gambar = $data['gambar'];
         ?>
         <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch">
-          <div class="card card-blog card-plain mb-4">
+          <div class="card card-blog card-plain mb-4 ">
             <div class="card-header p-0 mt-n4 mx-3">
               <a class="d-block shadow-xl border-radius-xl">
                 <img src="../assets/img/products/<?=$gambar?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
@@ -221,12 +222,12 @@ if (mysqli_num_rows($result) > 0) {
                   Rp <?=number_format($harga,0,",",".");?>
                 </h5>
               </a>
-              <p class="mb-4 text-sm pb-2">
+              <p class="mb-4 text-sm pb-2 fw-bolder">
                 <?=$nama_produk?>
               </p>
               <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;" data-bs-toggle="modal" data-bs-target="#pesan_menu<?=$id_produk;?>">
-                <button class="btn btn-outline-primary btn-sm mb-0 mx-3 d-flex align-items-center">
-                  <i class="material-symbols-rounded"  style="font-size: 20px;">add</i>
+                <button class="btn btn-outline-<?=$warna_menu?> btn-sm mb-0 mx-3 d-flex align-items-center">
+                  <i class="material-symbols-rounded fs-5" >add_shopping_cart</i>
                 </button>
               </div>
             </div>
@@ -359,7 +360,7 @@ if (mysqli_num_rows($result) > 0) {
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
-                    <input type="date" class="form-control" name="tanggal" required>
+                    <input type="date" class="form-control" value="<?=date("Y-m-d");?>" name="tanggal" required>
                 </div>
                 <button class="btn btn-outline-primary w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
               </form>
