@@ -25,7 +25,7 @@ if (mysqli_num_rows($result) > 0) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   
   <title>
-    Katalog - KASIRKU
+    Katalog - OMAH JAWA
   </title>
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -45,16 +45,11 @@ if (mysqli_num_rows($result) > 0) {
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
   <style type="text/css">
-    .menu{
+    .menu {
       transition: transform 0.3s ease;
     }
-    .menu:hover{
-        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.04);
-        transform: scale(1.03);
-    }
-    .icon-lg {
-      width: 100px;
-      height: 90px;
+    .menu:hover {
+      transform: scale(1.06);
     }
   </style>
 
@@ -65,8 +60,8 @@ if (mysqli_num_rows($result) > 0) {
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">dvr</span>
-        <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
+        <span class="material-symbols-rounded text-light">store</span>
+        <h6 class="my-auto mx-2 font-weight-bold text-white">OMAH JAWA</h6>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -91,13 +86,13 @@ if (mysqli_num_rows($result) > 0) {
         <li class="nav-item">
           <a class="nav-link text-white active bg-gradient-primary" href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">event_note</i>
             </div>
             <span class="nav-link-text ms-1">Katalog</span>
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Other Pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Cash Flow</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
@@ -110,7 +105,7 @@ if (mysqli_num_rows($result) > 0) {
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">event_note</i>
+               <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -209,9 +204,9 @@ if (mysqli_num_rows($result) > 0) {
               $harga = $data['harga'];
               $gambar = $data['gambar'];
         ?>
-        <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch">
+        <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch ">
           <div class="card card-blog card-plain mb-4 ">
-            <div class="card-header p-0 mt-n4 mx-3">
+            <div class="card-header menu p-0 mt-n4 mx-3 bg-transparent">
               <a class="d-block shadow-xl border-radius-xl">
                 <img src="../assets/img/products/<?=$gambar?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
               </a>
@@ -222,7 +217,7 @@ if (mysqli_num_rows($result) > 0) {
                   Rp <?=number_format($harga,0,",",".");?>
                 </h5>
               </a>
-              <p class="mb-4 text-sm pb-2 fw-bolder">
+              <p class="mb-4 text-sm pb-2 fw-bolder opacity-7">
                 <?=$nama_produk?>
               </p>
               <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;" data-bs-toggle="modal" data-bs-target="#pesan_menu<?=$id_produk;?>">
@@ -283,7 +278,7 @@ if (mysqli_num_rows($result) > 0) {
       </div>
       <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-          <i class="material-symbols-rounded py-2 text-primary">shopping_cart</i>
+          <i class="material-symbols-rounded py-2 text-<?=$warna_menu?>">shopping_cart</i>
         </a>
         <div class="card shadow-lg pt-3" style="border-radius: 35px;">
           <div class="card-header pb-0 pt-3">

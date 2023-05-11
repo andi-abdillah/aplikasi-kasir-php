@@ -18,7 +18,7 @@ $pengguna = $_SESSION['user'];
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   
   <title>
-    Laporan Keuangan - KASIRKU
+    Laporan Keuangan - OMAH JAWA
   </title>
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -43,8 +43,8 @@ $pengguna = $_SESSION['user'];
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">dvr</span>
-        <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
+        <span class="material-symbols-rounded text-light">store</span>
+        <h6 class="my-auto mx-2 font-weight-bold text-white">OMAH JAWA</h6>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -69,13 +69,13 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">event_note</i>
             </div>
             <span class="nav-link-text ms-1">Katalog</span>
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Other Pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Cash Flow</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
@@ -88,7 +88,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">event_note</i>
+               <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -174,21 +174,22 @@ $pengguna = $_SESSION['user'];
       <form role="form" class="d-flex justify-content-end" action="" method="post" enctype="multipart/form-data">
         <div class="">
           <select class="btn btn-outline-primary" name="bulan">
+            <option value="<?=$bulan_dipilih;?>" selected><?=date("M Y", strtotime($bulan_dipilih));?></option>
             <?php
-            if($bulan_dipilih) {
+            if($bulan_dipilih != $bulan_terbesar) {
             ?>
-              <option value="<?=$bulan_dipilih;?>" selected><?=date("M Y", strtotime($bulan_dipilih));?></option>
               <option value="<?=$bulan_terbesar;?>"><?=date("M Y", strtotime($bulan_terbesar));?></option>
             <?php
             }
             ?>
-            
             <?php
             while($row = mysqli_fetch_array($daftar_bulan)){
               $bulan = $row['tahun_bulan'];
+              if($bulan != $bulan_dipilih){
             ?>
               <option value="<?=$bulan;?>"><?=date("M Y", strtotime($bulan));?></option>
             <?php
+              }
             }
             ?>
           </select>
@@ -202,8 +203,8 @@ $pengguna = $_SESSION['user'];
         <form id="myForm" action="cetak-laporan.php" method="get" target="_blank">
           <input type="hidden" value="<?=$bulan_dipilih?>" name="cetak_laporan">
         </form>
-        <a href="#" onclick="document.getElementById('myForm').submit(); return false;"
-        class="btn btn-outline-info w-100 mb-3 d-flex align-items-center justify-content-center">
+        <a href="#" onclick="document.getElementById('myForm').submit(); return false;" 
+        class="btn bg-gradient-info w-100 mb-3 d-flex align-items-center justify-content-center">
           <span class="material-symbols-rounded me-1">picture_as_pdf</span>PDF
         </a>
       </div>
@@ -255,7 +256,7 @@ $pengguna = $_SESSION['user'];
                         <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$tanggal;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?=date("j M Y", strtotime($tanggal))?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($pendapatan,0,",",".");?></span>

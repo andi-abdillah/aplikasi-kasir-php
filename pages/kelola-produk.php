@@ -18,7 +18,7 @@ $pengguna = $_SESSION['user'];
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   
   <title>
-    Kelola Produk - KASIRKU
+    Kelola Produk - OMAH JAWA
   </title>
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -43,8 +43,8 @@ $pengguna = $_SESSION['user'];
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0 d-flex" href="./beranda.php">
-        <span class="material-symbols-rounded text-light">dvr</span>
-        <h6 class="my-auto mx-2 font-weight-bold text-white">KASIRKU</h6>
+        <span class="material-symbols-rounded text-light">store</span>
+        <h6 class="my-auto mx-2 font-weight-bold text-white">OMAH JAWA</h6>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -69,13 +69,13 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./katalog.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">event_note</i>
             </div>
             <span class="nav-link-text ms-1">Katalog</span>
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Other Pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Cash Flow</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
@@ -88,7 +88,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">event_note</i>
+               <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
