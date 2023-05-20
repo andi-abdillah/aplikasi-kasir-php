@@ -13,10 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  
+
   <!-- Icons Google -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
+
   <title>
     Kelola Produk - OMAH JAWA
   </title>
@@ -80,7 +80,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
@@ -88,7 +88,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -96,7 +96,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./laporan.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">menu_book</i>
+              <i class="material-icons opacity-10">menu_book</i>
             </div>
             <span class="nav-link-text ms-1">laporan Keuangan</span>
           </a>
@@ -131,7 +131,7 @@ $pengguna = $_SESSION['user'];
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?= $pengguna; ?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -151,61 +151,60 @@ $pengguna = $_SESSION['user'];
     <div class="container-fluid py-4">
       <!-- Button trigger modal -->
       <div style="position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9999;">
-        <button class="btn bg-gradient-<?=$warna_menu?> d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
+        <button class="btn bg-gradient-<?= $warna_menu ?> d-flex align-items-center justify-content-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#input_menu">
           <span class="material-symbols-rounded">playlist_add</span>
         </button>
       </div>
       <!-- End -->
       <div class="row mb-5">
         <?php
-          $colors = ['primary', 'success', 'info', 'warning', 'danger'];
-          $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
-          $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
-          while($data=mysqli_fetch_array($dataJenisMenu)){
-            $id_menu = $data['id_menu'];
-            $jenis_menu = $data['jenis_menu'];
-            $removedColor = array_shift($colors);
-            array_push($colors, $removedColor);
-            $removedIcon = array_shift($icons);
-            array_push($icons, $removedIcon);
+        $colors = ['primary', 'success', 'info', 'warning', 'danger'];
+        $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
+        $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+        while ($data = mysqli_fetch_array($dataJenisMenu)) {
+          $id_menu = $data['id_menu'];
+          $jenis_menu = $data['jenis_menu'];
+          $removedColor = array_shift($colors);
+          array_push($colors, $removedColor);
+          $removedIcon = array_shift($icons);
+          array_push($icons, $removedIcon);
         ?>
-        <div class="col-xl-3 col-sm-6 col-6 mb-xl-0">
-          <button class="btn bg-gradient-<?=$removedColor;?> mb-n4 mx-1 my-1 px-2 py-0 float-end" style="z-index: 200;" data-bs-toggle="modal" data-bs-target="#hapusJenisMenu<?=$id_menu;?>">
-          x
-          </button>
-          <form method="post">
-            <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
-            <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
-            <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
-            name="pilih_jenis_menu">
-              <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
-              <?=$jenis_menu;?>
+          <div class="col-xl-3 col-sm-6 col-6 mb-xl-0">
+            <button class="btn bg-gradient-<?= $removedColor; ?> mb-n4 mx-1 my-1 px-2 py-0 float-end" style="z-index: 200;" data-bs-toggle="modal" data-bs-target="#hapusJenisMenu<?= $id_menu; ?>">
+              x
             </button>
-          </form>
-        </div>
-        <!-- Modal Hapus Jenis Menu-->
-        <div class="modal fade" id="hapusJenisMenu<?=$id_menu;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
-                </div>
-                <div class="modal-body">
-                  <h6 class="modal-title" id="staticBackdropLabel">Tindakan ini akan menghapus data menu dengan jenis menu yang sama.</h6>
-                  <input type="hidden" class="form-control" value="<?=$id_menu;?>" name="id_menu">
-                  <input type="hidden" class="form-control" value="<?=$jenis_menu;?>" name="jenis_menu">
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn bg-gradient-success" name="hapus_jenis_menu">Iya</button>
-                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-                </div>
-              </div>
+            <form method="post">
+              <input type="hidden" value="<?= $jenis_menu; ?>" name="jenis_menu">
+              <input type="hidden" value="<?= $removedColor; ?>" name="warna_menu">
+              <button class="btn btn-outline-<?= $removedColor; ?> d-flex justify-content-center align-items-center w-100" name="pilih_jenis_menu">
+                <i class="material-symbols-rounded"><?= $removedIcon; ?></i>&nbsp;
+                <?= $jenis_menu; ?>
+              </button>
             </form>
           </div>
-        </div>
+          <!-- Modal Hapus Jenis Menu-->
+          <div class="modal fade" id="hapusJenisMenu<?= $id_menu; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
+                  </div>
+                  <div class="modal-body">
+                    <h6 class="modal-title" id="staticBackdropLabel">Tindakan ini akan menghapus data menu dengan jenis menu yang sama.</h6>
+                    <input type="hidden" class="form-control" value="<?= $id_menu; ?>" name="id_menu">
+                    <input type="hidden" class="form-control" value="<?= $jenis_menu; ?>" name="jenis_menu">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn bg-gradient-success" name="hapus_jenis_menu">Iya</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         <?php
-          };
+        };
         ?>
         <div class="col-xl-3 col-sm-6 col-6 mb-xl-0 d-flex">
           <button class="btn btn-outline-dark d-flex justify-content-center align-items-center w-100" data-bs-toggle="modal" data-bs-target="#input_jenis_menu">
@@ -237,76 +236,76 @@ $pengguna = $_SESSION['user'];
         </div>
       </div>
       <?php
-        $data_jenis_menu= mysqli_query($conn, "SELECT COUNT(*) FROM menu WHERE jenis_menu = '$pilihan_jenis_menu'");
-        $row = mysqli_fetch_array($data_jenis_menu);
-        if ($row[0] > 0) {
+      $data_jenis_menu = mysqli_query($conn, "SELECT COUNT(*) FROM menu WHERE jenis_menu = '$pilihan_jenis_menu'");
+      $row = mysqli_fetch_array($data_jenis_menu);
+      if ($row[0] > 0) {
       ?>
-          <div class="card mt-4 mb-5">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-<?=$warna_menu;?> shadow-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><?=$pilihan_jenis_menu;?></h6>
-              </div>
+        <div class="card mt-4 mb-5">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-<?= $warna_menu; ?> shadow-dark border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3"><?= $pilihan_jenis_menu; ?></h6>
             </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
-                        No.</th>
-                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
-                        Nama Produk</th>
-                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
-                        Harga</th>
-                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
-                        Tanggal</th>
-                      <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
-                        Gambar</th>
-                      <th class="text-secondary"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$pilihan_jenis_menu' ");
-                      $i = 1;
-                      while($data=mysqli_fetch_array($dataMenu)){
-                        $id_produk = $data['id_produk'];
-                        $jenis_menu = $data['jenis_menu']; 
-                        $nama_produk = $data['nama_produk'];
-                        $harga = $data['harga']; 
-                        $tgl_input = $data['tgl_input']; 
-                        $gambar = $data['gambar'];
-                        $nama_produk_baru = batasi_teks($nama_produk, 25);
-                    ?>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
+                      No.</th>
+                    <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
+                      Nama Produk</th>
+                    <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
+                      Harga</th>
+                    <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
+                      Tanggal</th>
+                    <th class="text-center text-uppercase text-secondary text-sm font-weight-bolder">
+                      Gambar</th>
+                    <th class="text-secondary"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$pilihan_jenis_menu' ");
+                  $i = 1;
+                  while ($data = mysqli_fetch_array($dataMenu)) {
+                    $id_produk = $data['id_produk'];
+                    $jenis_menu = $data['jenis_menu'];
+                    $nama_produk = $data['nama_produk'];
+                    $harga = $data['harga'];
+                    $tgl_input = $data['tgl_input'];
+                    $gambar = $data['gambar'];
+                    $nama_produk_baru = batasi_teks($nama_produk, 25);
+                  ?>
                     <tr>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?= $i++; ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk_baru;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?= $nama_produk_baru; ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($harga,0,",",".");?></span>
+                        <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($harga, 0, ",", "."); ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$tgl_input;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?= $tgl_input; ?></span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                          <img class="border-radius-xl" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
+                          <img class="border-radius-xl" src="../assets/img/products/<?= $gambar; ?>" alt="Gambar Belum Dimasukkan" width="100px" height="100px">
                         </span>
                       </td>
                       <td class="text-end">
-                        <button class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#ubah<?=$id_produk;?>">
+                        <button class="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#ubah<?= $id_produk; ?>">
                           <i class="material-icons text-sm me-2">edit</i>Edit
                         </button>
-                        <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapusMenu<?=$id_produk;?>">
+                        <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapusMenu<?= $id_produk; ?>">
                           <i class="material-icons text-sm me-2">delete</i>Hapus
                         </button>
                       </td>
                     </tr>
                     <!-- Modal Ubah Menu -->
-                    <div class="modal fade" id="ubah<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="ubah<?= $id_produk; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
                           <div class="modal-content">
@@ -314,24 +313,24 @@ $pengguna = $_SESSION['user'];
                               <h5 class="modal-title" id="staticBackdropLabel">Ubah Data Menu</h5>
                             </div>
                             <div class="modal-body">
-                              <input type="hidden" class="form-control" value="<?=$id_produk;?>" name="id_produk">
+                              <input type="hidden" class="form-control" value="<?= $id_produk; ?>" name="id_produk">
                               <div class="input-group input-group-outline my-3">
                                 <label class="form-label"></label>
-                                <input type="text" class="form-control" value="<?=$nama_produk;?>" name="nama_produk" required>
+                                <input type="text" class="form-control" value="<?= $nama_produk; ?>" name="nama_produk" required>
                               </div>
                               <div class="input-group input-group-outline my-3">
                                 <label class="form-label"></label>
-                                <input type="number" class="form-control" value="<?=$harga;?>" name="harga" required>
+                                <input type="number" class="form-control" value="<?= $harga; ?>" name="harga" required>
                               </div>
                               <div class="input-group input-group-outline my-3">
                                 <label class="form-label"></label>
-                                <input type="date" class="form-control" value="<?=$tgl_input;?>" name="tanggal" required>
+                                <input type="date" class="form-control" value="<?= $tgl_input; ?>" name="tanggal" required>
                               </div>
                               <div class="input-group input-group-outline my-3 d-flex align-items-center">
                                 <input type="file" class="form-control me-4" name="file_baru">
-                                Gambar Saat Ini&nbsp;&nbsp; : &nbsp;&nbsp;<img class="rounded" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" width="80px" height="80px">
+                                Gambar Saat Ini&nbsp;&nbsp; : &nbsp;&nbsp;<img class="rounded" src="../assets/img/products/<?= $gambar; ?>" alt="Gambar Belum Dimasukkan" width="80px" height="80px">
                               </div>
-                              <input type="hidden" class="form-control" value="<?=$gambar;?>" name="file">
+                              <input type="hidden" class="form-control" value="<?= $gambar; ?>" name="file">
                             </div>
                             <div class="modal-footer">
                               <button type="submit" class="btn bg-gradient-success" name="ubah_menu">Ubah</button>
@@ -342,14 +341,14 @@ $pengguna = $_SESSION['user'];
                       </div>
                     </div>
                     <!-- Modal Hapus Menu-->
-                    <div class="modal fade" id="hapusMenu<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="hapusMenu<?= $id_produk; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
-                              <input type="hidden" class="form-control" value="<?=$id_produk;?>" name="id_produk">
-                              <input type="hidden" class="form-control" value="<?=$gambar;?>"  name="file">
+                              <input type="hidden" class="form-control" value="<?= $id_produk; ?>" name="id_produk">
+                              <input type="hidden" class="form-control" value="<?= $gambar; ?>" name="file">
                             </div>
                             <div class="modal-footer">
                               <button type="submit" class="btn bg-gradient-success" name="hapus_menu">Iya</button>
@@ -359,22 +358,22 @@ $pengguna = $_SESSION['user'];
                         </form>
                       </div>
                     </div>
-                    <?php
-                      };
-                    ?>
-                  </tbody>
-                </table>
-              </div>
+                  <?php
+                  };
+                  ?>
+                </tbody>
+              </table>
             </div>
           </div>
+        </div>
       <?php
-        }else {
+      } else {
       ?>
-          <div class="text-center">
-            <h2>Data Tidak Ditemukan!</h2>
-          </div>
-      <?php 
-        }
+        <div class="text-center">
+          <h2>Data Tidak Ditemukan!</h2>
+        </div>
+      <?php
+      }
       ?>
       <!-- Modal Input Menu Baru -->
       <div class="modal fade" id="input_menu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -387,7 +386,7 @@ $pengguna = $_SESSION['user'];
               <div class="modal-body">
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
-                  <input type="text" class="form-control" value="<?=$pilihan_jenis_menu?>" name="jenis_menu" readonly>
+                  <input type="text" class="form-control" value="<?= $pilihan_jenis_menu ?>" name="jenis_menu" readonly>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Nama Produk</label>
@@ -399,7 +398,7 @@ $pengguna = $_SESSION['user'];
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
-                  <input type="date" class="form-control" value="<?=date("Y-m-d");?>" name="tanggal" required>
+                  <input type="date" class="form-control" value="<?= date("Y-m-d"); ?>" name="tanggal" required>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
@@ -439,18 +438,19 @@ $pengguna = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
-  <!-- Sign Out Modal-->
-  <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
-        </div>
-        <div class="modal-footer">
-          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-        </div>
+<!-- Sign Out Modal-->
+<div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
       </div>
     </div>
   </div>
+</div>
+
 </html>

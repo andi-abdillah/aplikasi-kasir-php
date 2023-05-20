@@ -13,10 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  
+
   <!-- Icons Google -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
+
   <title>
     Riwayat Transaksi - OMAH JAWA
   </title>
@@ -80,7 +80,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white active bg-gradient-primary" href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
@@ -88,7 +88,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -96,7 +96,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./laporan.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">menu_book</i>
+              <i class="material-icons opacity-10">menu_book</i>
             </div>
             <span class="nav-link-text ms-1">laporan Keuangan</span>
           </a>
@@ -131,7 +131,7 @@ $pengguna = $_SESSION['user'];
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?= $pengguna; ?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -150,26 +150,26 @@ $pengguna = $_SESSION['user'];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <?php
-        $data_terbesar = mysqli_query($conn, "SELECT MAX(STR_TO_DATE(tanggal, '%Y-%m-%d')) FROM transaksi");
-        $tanggal_dipilih = mysqli_fetch_array($data_terbesar)[0];
-        if(isset($_POST['pilih_tanggal'])){
-          $tanggal_dipilih = $_POST['tanggal'];
-        }
+      $data_terbesar = mysqli_query($conn, "SELECT MAX(STR_TO_DATE(tanggal, '%Y-%m-%d')) FROM transaksi");
+      $tanggal_dipilih = mysqli_fetch_array($data_terbesar)[0];
+      if (isset($_POST['pilih_tanggal'])) {
+        $tanggal_dipilih = $_POST['tanggal'];
+      }
       ?>
       <form role="form" class="d-flex justify-content-end" action="" method="post" enctype="multipart/form-data">
         <div class="">
           <select class="btn btn-outline-primary" name="tanggal">
-            <option value="<?=$tanggal_dipilih;?>" selected><?=date("j M Y", strtotime($tanggal_dipilih))?></option>
+            <option value="<?= $tanggal_dipilih; ?>" selected><?= date("j M Y", strtotime($tanggal_dipilih)) ?></option>
             <?php
-              $data_tanggal = mysqli_query($conn, "SELECT DISTINCT tanggal FROM transaksi ORDER BY tanggal DESC");
-              while($data = mysqli_fetch_array($data_tanggal)){
-                $tanggal = $data['tanggal'];
-                if($tanggal != $tanggal_dipilih){
-              ?>
-                  <option class="py-5" value="<?=$tanggal;?>"><?=date("j M Y", strtotime($tanggal))?></option>
+            $data_tanggal = mysqli_query($conn, "SELECT DISTINCT tanggal FROM transaksi ORDER BY tanggal DESC");
+            while ($data = mysqli_fetch_array($data_tanggal)) {
+              $tanggal = $data['tanggal'];
+              if ($tanggal != $tanggal_dipilih) {
+            ?>
+                <option class="py-5" value="<?= $tanggal; ?>"><?= date("j M Y", strtotime($tanggal)) ?></option>
             <?php
-                }
-              };
+              }
+            };
             ?>
           </select>
         </div>
@@ -182,7 +182,7 @@ $pengguna = $_SESSION['user'];
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
           <div class="row bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
             <h6 class="col text-white text-capitalize ps-3">Riwayat Transaksi</h6>
-            <h6 class="col text-end text-white text-capitalize ps-3">Tgl : <?=date("j M Y", strtotime($tanggal_dipilih))?></h6>
+            <h6 class="col text-end text-white text-capitalize ps-3">Tgl : <?= date("j M Y", strtotime($tanggal_dipilih)) ?></h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">
@@ -207,33 +207,33 @@ $pengguna = $_SESSION['user'];
               </thead>
               <tbody>
                 <?php
-                  $dataMenu = mysqli_query($conn, "SELECT * FROM transaksi WHERE tanggal='$tanggal_dipilih'");
-                  $result = mysqli_query($conn, "SELECT SUM(subtotal) AS total FROM transaksi WHERE tanggal='$tanggal_dipilih'"); 
-                  $row = mysqli_fetch_assoc($result);
-                  $nama_pembeli = "";
-                  $total = $row['total'];
-                  $i = 1;
-                  while($data=mysqli_fetch_array($dataMenu)){
-                    $id_transaksi = $data['id_transaksi'];
-                    $nama_produk = $data['nama_produk'];
-                    $nama_produk_baru = batasi_teks($nama_produk, 25);
-                    $harga = $data['harga']; 
-                    $jumlah = $data['jumlah']; 
-                    $subtotal = $data['subtotal']; 
+                $dataMenu = mysqli_query($conn, "SELECT * FROM transaksi WHERE tanggal='$tanggal_dipilih'");
+                $result = mysqli_query($conn, "SELECT SUM(subtotal) AS total FROM transaksi WHERE tanggal='$tanggal_dipilih'");
+                $row = mysqli_fetch_assoc($result);
+                $nama_pembeli = "";
+                $total = $row['total'];
+                $i = 1;
+                while ($data = mysqli_fetch_array($dataMenu)) {
+                  $id_transaksi = $data['id_transaksi'];
+                  $nama_produk = $data['nama_produk'];
+                  $nama_produk_baru = batasi_teks($nama_produk, 25);
+                  $harga = $data['harga'];
+                  $jumlah = $data['jumlah'];
+                  $subtotal = $data['subtotal'];
                 ?>
-                <tr>
+                  <tr>
                     <?php
-                    if($nama_pembeli != $data['nama_pembeli']){
+                    if ($nama_pembeli != $data['nama_pembeli']) {
                       $nama_pembeli = $data['nama_pembeli'];
                     ?>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?= $i++; ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$nama_pembeli;?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?= $nama_pembeli; ?></span>
                       </td>
                     <?php
-                    } else{
+                    } else {
                     ?>
                       <td class="align-middle text-center text-sm">
                         <span class="text-secondary text-xs font-weight-bold"></span>
@@ -244,43 +244,43 @@ $pengguna = $_SESSION['user'];
                     <?php
                     }
                     ?>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$nama_produk_baru;?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($harga,0,",",".");?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold"><?=$jumlah;?></span>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($subtotal,0,",",".");?></span>
-                  </td>
-                  <td class="text-end">
-                    <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapus<?=$id_transaksi;?>">
-                      <i class="material-icons text-sm me-2">delete</i>Hapus
-                    </button>
-                  </td>
-                </tr>
-                <!-- Modal Hapus Menu-->
-                <div class="modal fade" id="hapus<?=$id_transaksi;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
-                          <input type="hidden" class="form-control" value="<?=$id_transaksi;?>" name="id_transaksi">
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold"><?= $nama_produk_baru; ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($harga, 0, ",", "."); ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold"><?= $jumlah; ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($subtotal, 0, ",", "."); ?></span>
+                    </td>
+                    <td class="text-end">
+                      <button class="btn btn-link text-danger text-gradient" data-bs-toggle="modal" data-bs-target="#hapus<?= $id_transaksi; ?>">
+                        <i class="material-icons text-sm me-2">delete</i>Hapus
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- Modal Hapus Menu-->
+                  <div class="modal fade" id="hapus<?= $id_transaksi; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Menghapus Data Ini?</h5>
+                            <input type="hidden" class="form-control" value="<?= $id_transaksi; ?>" name="id_transaksi">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn bg-gradient-success" name="hapus_transaksi">Iya</button>
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                          </div>
                         </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn bg-gradient-success" name="hapus_transaksi">Iya</button>
-                          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-                        </div>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   </div>
-                </div>
                 <?php
-                  };
+                };
                 ?>
               </tbody>
               <tfoot>
@@ -289,7 +289,7 @@ $pengguna = $_SESSION['user'];
                     <span class="text-secondary text-xs font-weight-bold">Jumlah Total</span>
                   </td>
                   <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($total,0,",",".");?></span>
+                    <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($total, 0, ",", "."); ?></span>
                   </td>
                   <td></td>
                 </tr>
@@ -323,18 +323,19 @@ $pengguna = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
-  <!-- Sign Out Modal-->
-  <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
-        </div>
-        <div class="modal-footer">
-          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-        </div>
+<!-- Sign Out Modal-->
+<div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
       </div>
     </div>
   </div>
+</div>
+
 </html>

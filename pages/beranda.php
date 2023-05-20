@@ -16,7 +16,7 @@ $pengguna = $_SESSION['user'];
 
   <!-- Icons Google -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
+
   <title>
     Beranda - OMAH JAWA
   </title>
@@ -96,7 +96,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./laporan.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">menu_book</i>
+              <i class="material-icons opacity-10">menu_book</i>
             </div>
             <span class="nav-link-text ms-1">laporan Keuangan</span>
           </a>
@@ -131,7 +131,7 @@ $pengguna = $_SESSION['user'];
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?= $pengguna; ?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -155,7 +155,7 @@ $pengguna = $_SESSION['user'];
       <div class="card card-body mx-3 mx-md-4 mt-n6 mb-5">
         <div class="h-100 text-center">
           <h3 class="mt-n8 text-capitalize d-flex align-items-center justify-content-center text-white">
-            Selamat Datang Kembali <?=$pengguna;?>date("d F Y", strtotime($tanggal))
+            Selamat Datang Kembali <?= $pengguna; ?>
             &nbsp;
             <span class="material-symbols-rounded">sentiment_satisfied</span>
           </h3>
@@ -166,45 +166,45 @@ $pengguna = $_SESSION['user'];
           </div>
           <div class="row ">
             <?php
-              $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
-              $i = 0;
-              while($data=mysqli_fetch_array($dataMenu)){
-                $jenis_menu = $data['jenis_menu'];
-                $menu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$jenis_menu' LIMIT 1;");
-                $nama_menu = $menu->fetch_object();
-                if($nama_menu){
-                  $data_menu = $nama_menu->nama_produk;
-                  $data_gambar = $nama_menu->gambar;
+            $dataMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+            $i = 0;
+            while ($data = mysqli_fetch_array($dataMenu)) {
+              $jenis_menu = $data['jenis_menu'];
+              $menu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu = '$jenis_menu' LIMIT 1;");
+              $nama_menu = $menu->fetch_object();
+              if ($nama_menu) {
+                $data_menu = $nama_menu->nama_produk;
+                $data_gambar = $nama_menu->gambar;
             ?>
-                  <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 d-flex">
-                    <div class="card card-blog card-plain mb-4 w-100">
-                      <div class="card-header p-0 mt-n4 mx-3">
-                        <a class="d-block shadow-xl border-radius-xl">
-                          <img src="../assets/img/products/<?=$data_gambar?>" alt="img-blur-shadow" class="img-fluid w-100 shadow border-radius-xl">
-                        </a>
-                      </div>
-                      <div class="card-body p-3 position-relative">
-                        <a href="javascript:;">
-                          <h5>
-                            <?=$jenis_menu?>
-                          </h5>
-                        </a>
-                        <p class="mb-4 text-sm">
-                          <?=$data_menu?>
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;">
-                          <a href="./katalog.php" class="btn btn-outline-primary btn-sm mb-0 mx-3">Lihat</a>
-                        </div>
+                <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 d-flex">
+                  <div class="card card-blog card-plain mb-4 w-100">
+                    <div class="card-header p-0 mt-n4 mx-3">
+                      <a class="d-block shadow-xl border-radius-xl">
+                        <img src="../assets/img/products/<?= $data_gambar ?>" alt="img-blur-shadow" class="img-fluid w-100 shadow border-radius-xl">
+                      </a>
+                    </div>
+                    <div class="card-body p-3 position-relative">
+                      <a href="javascript:;">
+                        <h5>
+                          <?= $jenis_menu ?>
+                        </h5>
+                      </a>
+                      <p class="mb-4 text-sm">
+                        <?= $data_menu ?>
+                      </p>
+                      <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;">
+                        <a href="./katalog.php" class="btn btn-outline-primary btn-sm mb-0 mx-3">Lihat</a>
                       </div>
                     </div>
                   </div>
-            <?php 
-                  $i++;
-                }
-                if($i == 4) {
-                  break;
-                }
-              };
+                </div>
+            <?php
+                $i++;
+              }
+              if ($i == 4) {
+                break;
+              }
+            };
             ?>
           </div>
         </div>
@@ -234,18 +234,19 @@ $pengguna = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
-  <!-- Sign Out Modal-->
-  <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
-        </div>
-        <div class="modal-footer">
-          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-        </div>
+<!-- Sign Out Modal-->
+<div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
       </div>
     </div>
   </div>
+</div>
+
 </html>

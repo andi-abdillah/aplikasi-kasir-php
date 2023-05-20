@@ -13,10 +13,10 @@ $pengguna = $_SESSION['user'];
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  
+
   <!-- Icons Google -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
+
   <title>
     Laporan Keuangan - OMAH JAWA
   </title>
@@ -80,7 +80,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
@@ -88,7 +88,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -96,7 +96,7 @@ $pengguna = $_SESSION['user'];
         <li class="nav-item">
           <a class="nav-link text-white active bg-gradient-primary" href="./laporan.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">menu_book</i>
+              <i class="material-icons opacity-10">menu_book</i>
             </div>
             <span class="nav-link-text ms-1">laporan Keuangan</span>
           </a>
@@ -131,7 +131,7 @@ $pengguna = $_SESSION['user'];
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?= $pengguna; ?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -150,7 +150,7 @@ $pengguna = $_SESSION['user'];
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <?php
-        $daftar_bulan = mysqli_query($conn, "SELECT DISTINCT DATE_FORMAT(tanggal, '%Y-%m') AS tahun_bulan
+      $daftar_bulan = mysqli_query($conn, "SELECT DISTINCT DATE_FORMAT(tanggal, '%Y-%m') AS tahun_bulan
         FROM (
           SELECT tanggal FROM transaksi
           UNION ALL
@@ -158,36 +158,36 @@ $pengguna = $_SESSION['user'];
         ) AS tabel_gabungan
         ORDER BY tanggal DESC
         ");
-        date_default_timezone_set('Asia/Jakarta');
-        $tanggal = date("Y-m-d");
-        $bulan_dipilih = "";
-        $bulan_terbesar = "";
-        if(mysqli_num_rows($daftar_bulan) > 0){
-          $data = mysqli_fetch_array($daftar_bulan);
-          $bulan_dipilih = $data[0];
-          $bulan_terbesar = $data[0];
-        }
-        if(isset($_POST['pilih_bulan'])){
-          $bulan_dipilih = $_POST['bulan'];
-        }
+      date_default_timezone_set('Asia/Jakarta');
+      $tanggal = date("Y-m-d");
+      $bulan_dipilih = "";
+      $bulan_terbesar = "";
+      if (mysqli_num_rows($daftar_bulan) > 0) {
+        $data = mysqli_fetch_array($daftar_bulan);
+        $bulan_dipilih = $data[0];
+        $bulan_terbesar = $data[0];
+      }
+      if (isset($_POST['pilih_bulan'])) {
+        $bulan_dipilih = $_POST['bulan'];
+      }
       ?>
       <form role="form" class="d-flex justify-content-end" action="" method="post" enctype="multipart/form-data">
         <div class="">
           <select class="btn btn-outline-primary" name="bulan">
-            <option value="<?=$bulan_dipilih;?>" selected><?=date("M Y", strtotime($bulan_dipilih));?></option>
+            <option value="<?= $bulan_dipilih; ?>" selected><?= date("M Y", strtotime($bulan_dipilih)); ?></option>
             <?php
-            if($bulan_dipilih != $bulan_terbesar) {
+            if ($bulan_dipilih != $bulan_terbesar) {
             ?>
-              <option value="<?=$bulan_terbesar;?>"><?=date("M Y", strtotime($bulan_terbesar));?></option>
+              <option value="<?= $bulan_terbesar; ?>"><?= date("M Y", strtotime($bulan_terbesar)); ?></option>
             <?php
             }
             ?>
             <?php
-            while($row = mysqli_fetch_array($daftar_bulan)){
+            while ($row = mysqli_fetch_array($daftar_bulan)) {
               $bulan = $row['tahun_bulan'];
-              if($bulan != $bulan_dipilih){
+              if ($bulan != $bulan_dipilih) {
             ?>
-              <option value="<?=$bulan;?>"><?=date("M Y", strtotime($bulan));?></option>
+                <option value="<?= $bulan; ?>"><?= date("M Y", strtotime($bulan)); ?></option>
             <?php
               }
             }
@@ -201,10 +201,9 @@ $pengguna = $_SESSION['user'];
       </form>
       <div style="position: fixed; bottom: 0; right: 0; margin-right: 30px; margin-bottom: 10px; z-index: 9998;">
         <form id="myForm" action="cetak-laporan.php" method="get" target="_blank">
-          <input type="hidden" value="<?=$bulan_dipilih?>" name="cetak_laporan">
+          <input type="hidden" value="<?= $bulan_dipilih ?>" name="cetak_laporan">
         </form>
-        <a href="#" onclick="document.getElementById('myForm').submit(); return false;" 
-        class="btn bg-gradient-info w-100 mb-3 d-flex align-items-center justify-content-center">
+        <a href="#" onclick="document.getElementById('myForm').submit(); return false;" class="btn bg-gradient-info w-100 mb-3 d-flex align-items-center justify-content-center">
           <span class="material-symbols-rounded me-1">picture_as_pdf</span>PDF
         </a>
       </div>
@@ -212,14 +211,14 @@ $pengguna = $_SESSION['user'];
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
           <div class="row bg-gradient-dark shadow-info border-radius-lg pt-4 pb-3">
             <h6 class="col text-white text-capitalize ps-3">Laporan Keuangan</h6>
-            <h6 class="col text-end text-white text-capitalize ps-3">Bulan : <?php echo $bulan_dipilih ? date("M Y", strtotime($bulan_dipilih)) : '';?></h6>
+            <h6 class="col text-end text-white text-capitalize ps-3">Bulan : <?php echo $bulan_dipilih ? date("M Y", strtotime($bulan_dipilih)) : ''; ?></h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">
           <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
               <thead>
-                <tr>	
+                <tr>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     No.</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -242,7 +241,7 @@ $pengguna = $_SESSION['user'];
                 WHERE tanggal LIKE '$bulan_dipilih-%' ORDER BY tanggal ASC");
                 $total_laba = 0;
                 // menghitung total pendapatan, pengeluaran, dan laba per hari
-                while($row = mysqli_fetch_array($daftar_tanggal)){
+                while ($row = mysqli_fetch_array($daftar_tanggal)) {
                   $tanggal = $row['tanggal'];
                   $total_pendapatan = mysqli_query($conn, "SELECT SUM(subtotal) AS total FROM transaksi WHERE tanggal= '$tanggal'");
                   $total_pengeluaran = mysqli_query($conn, "SELECT SUM(subtotal) AS total FROM pengeluaran WHERE tanggal = '$tanggal'");
@@ -250,27 +249,27 @@ $pengguna = $_SESSION['user'];
                   $pengeluaran = mysqli_fetch_array($total_pengeluaran)['total'];
                   $laba = $pendapatan - $pengeluaran;
                   $total_laba += $laba;
-                  ?>
-                    <tr>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?=$i++;?></span>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-secondary text-xs font-weight-bold"><?=date("j M Y", strtotime($tanggal))?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($pendapatan,0,",",".");?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($pengeluaran,0,",",".");?></span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($laba,0,",",".");?></span>
-                      </td>
-                    </tr>
-                  <?php
-                  }
-                  ?>
+                ?>
+                  <tr>
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-secondary text-xs font-weight-bold"><?= $i++; ?></span>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span class="text-secondary text-xs font-weight-bold"><?= date("j M Y", strtotime($tanggal)) ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($pendapatan, 0, ",", "."); ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($pengeluaran, 0, ",", "."); ?></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($laba, 0, ",", "."); ?></span>
+                    </td>
+                  </tr>
+                <?php
+                }
+                ?>
               </tbody>
               <tfoot>
                 <tr>
@@ -278,7 +277,7 @@ $pengguna = $_SESSION['user'];
                     <span class="text-secondary text-xs font-weight-bold">Laba Bersih</span>
                   </td>
                   <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">Rp <?=number_format($total_laba,0,",",".");?></span>
+                    <span class="text-secondary text-xs font-weight-bold">Rp <?= number_format($total_laba, 0, ",", "."); ?></span>
                   </td>
                 </tr>
               </tfoot>
@@ -315,18 +314,19 @@ $pengguna = $_SESSION['user'];
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
-  <!-- Sign Out Modal-->
-  <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
-        </div>
-        <div class="modal-footer">
-          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-        </div>
+<!-- Sign Out Modal-->
+<div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
       </div>
     </div>
   </div>
+</div>
+
 </html>

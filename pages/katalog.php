@@ -23,7 +23,7 @@ if (mysqli_num_rows($result) > 0) {
 
   <!-- Icons Google -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
+
   <title>
     Katalog - OMAH JAWA
   </title>
@@ -48,6 +48,7 @@ if (mysqli_num_rows($result) > 0) {
     .menu {
       transition: transform 0.3s ease;
     }
+
     .menu:hover {
       transform: scale(1.06);
     }
@@ -97,7 +98,7 @@ if (mysqli_num_rows($result) > 0) {
         <li class="nav-item">
           <a class="nav-link text-white " href="./riwayat-transaksi.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">receipt_long</i>
+              <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
@@ -105,7 +106,7 @@ if (mysqli_num_rows($result) > 0) {
         <li class="nav-item">
           <a class="nav-link text-white " href="./pengeluaran.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">list_alt</i>
+              <i class="material-icons opacity-10">list_alt</i>
             </div>
             <span class="nav-link-text ms-1">Data Pengeluaran</span>
           </a>
@@ -113,7 +114,7 @@ if (mysqli_num_rows($result) > 0) {
         <li class="nav-item">
           <a class="nav-link text-white " href="./laporan.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-               <i class="material-icons opacity-10">menu_book</i>
+              <i class="material-icons opacity-10">menu_book</i>
             </div>
             <span class="nav-link-text ms-1">laporan Keuangan</span>
           </a>
@@ -148,7 +149,7 @@ if (mysqli_num_rows($result) > 0) {
             <li class="nav-item d-flex align-items-center">
               <span class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none text-capitalize"><?=$pengguna;?></span>
+                <span class="d-sm-inline d-none text-capitalize"><?= $pengguna; ?></span>
               </span>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -168,117 +169,117 @@ if (mysqli_num_rows($result) > 0) {
     <div class="container-fluid py-4">
       <div class="row">
         <?php
-          $colors = ['primary', 'success', 'info', 'warning', 'danger'];
-          $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
-          $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
-          while($data=mysqli_fetch_array($dataJenisMenu)){
-            $jenis_menu = $data['jenis_menu'];
-            $removedColor = array_shift($colors);
-            array_push($colors, $removedColor);
-            $removedIcon = array_shift($icons);
-            array_push($icons, $removedIcon);
+        $colors = ['primary', 'success', 'info', 'warning', 'danger'];
+        $icons = ['fastfood', 'restaurant_menu', 'restaurant', 'ramen_dining', 'brunch_dining'];
+        $dataJenisMenu = mysqli_query($conn, "SELECT * FROM jenis_menu");
+        while ($data = mysqli_fetch_array($dataJenisMenu)) {
+          $jenis_menu = $data['jenis_menu'];
+          $removedColor = array_shift($colors);
+          array_push($colors, $removedColor);
+          $removedIcon = array_shift($icons);
+          array_push($icons, $removedIcon);
         ?>
           <form class="col-xl-3 col-sm-6 col-6 mb-xl-0 d-flex align-items-stretch" method="post">
-            <input type="hidden" value="<?=$jenis_menu;?>" name="jenis_menu">
-            <input type="hidden" value="<?=$removedColor;?>" name="warna_menu">
-            <button class="btn btn-outline-<?=$removedColor;?> d-flex justify-content-center align-items-center w-100"
-            name="pilih_jenis_menu">
-              <i class="material-symbols-rounded"><?=$removedIcon;?></i>&nbsp;
-              <?=$jenis_menu;?>
+            <input type="hidden" value="<?= $jenis_menu; ?>" name="jenis_menu">
+            <input type="hidden" value="<?= $removedColor; ?>" name="warna_menu">
+            <button class="btn btn-outline-<?= $removedColor; ?> d-flex justify-content-center align-items-center w-100" name="pilih_jenis_menu">
+              <i class="material-symbols-rounded"><?= $removedIcon; ?></i>&nbsp;
+              <?= $jenis_menu; ?>
             </button>
           </form>
         <?php
-          };
+        };
         ?>
       </div>
       <div class="row">
-        <h2 class="text-center my-4"><?=$pilihan_jenis_menu;?></h2>
+        <h2 class="text-center my-4"><?= $pilihan_jenis_menu; ?></h2>
         <?php
-          $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu='$pilihan_jenis_menu'");
-          $i = 1;
-          if(mysqli_num_rows($dataMenu) != 0) {
-            while($data=mysqli_fetch_array($dataMenu)){
-              $id_produk = $data['id_produk'];
-              $jenis_menu = $data['jenis_menu'];
-              $nama_produk = $data['nama_produk'];
-              $harga = $data['harga'];
-              $gambar = $data['gambar'];
+        $dataMenu = mysqli_query($conn, "SELECT * FROM menu WHERE jenis_menu='$pilihan_jenis_menu'");
+        $i = 1;
+        if (mysqli_num_rows($dataMenu) != 0) {
+          while ($data = mysqli_fetch_array($dataMenu)) {
+            $id_produk = $data['id_produk'];
+            $jenis_menu = $data['jenis_menu'];
+            $nama_produk = $data['nama_produk'];
+            $harga = $data['harga'];
+            $gambar = $data['gambar'];
         ?>
-        <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch ">
-          <div class="card card-blog card-plain mb-4 ">
-            <div class="card-header menu p-0 mt-n4 mx-3 bg-transparent">
-              <a class="d-block shadow-xl border-radius-xl">
-                <img src="../assets/img/products/<?=$gambar?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
-              </a>
-            </div>
-            <div class="card-body p-3 position-relative">
-              <a href="javascript:;">
-                <h5>
-                  Rp <?=number_format($harga,0,",",".");?>
-                </h5>
-              </a>
-              <p class="mb-4 text-sm pb-2 fw-bolder opacity-7">
-                <?=$nama_produk?>
-              </p>
-              <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;" data-bs-toggle="modal" data-bs-target="#pesan_menu<?=$id_produk;?>">
-                <button class="btn btn-outline-<?=$warna_menu?> btn-sm mb-0 mx-3 d-flex align-items-center">
-                  <i class="material-symbols-rounded fs-5" >add_shopping_cart</i>
-                </button>
+            <div class="col-lg-3 col-md-4 col-6 my-4 py-0 d-flex align-items-stretch ">
+              <div class="card card-blog card-plain mb-4 ">
+                <div class="card-header menu p-0 mt-n4 mx-3 bg-transparent">
+                  <a class="d-block shadow-xl border-radius-xl">
+                    <img src="../assets/img/products/<?= $gambar ?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                  </a>
+                </div>
+                <div class="card-body p-3 position-relative">
+                  <a href="javascript:;">
+                    <h5>
+                      Rp <?= number_format($harga, 0, ",", "."); ?>
+                    </h5>
+                  </a>
+                  <p class="mb-4 text-sm pb-2 fw-bolder opacity-7">
+                    <?= $nama_produk ?>
+                  </p>
+                  <div class="d-flex align-items-center justify-content-between" style="position: absolute; bottom: 0; right: 0;" data-bs-toggle="modal" data-bs-target="#pesan_menu<?= $id_produk; ?>">
+                    <button class="btn btn-outline-<?= $warna_menu ?> btn-sm mb-0 mx-3 d-flex align-items-center">
+                      <i class="material-symbols-rounded fs-5">add_shopping_cart</i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- Modal Pesan Menu -->
-        <div class="modal fade" id="pesan_menu<?=$id_produk;?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">Tambahkan Pesanan</h5>
-                </div>
-                <div class="modal-body">
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label"></label>
-                    <input type="text" class="form-control" value="<?=$nama_produk;?>" disabled>
-                    <input type="hidden" value="<?=$nama_produk;?>" name="nama_produk">
+            <!-- Modal Pesan Menu -->
+            <div class="modal fade" id="pesan_menu<?= $id_produk; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <form role="form" class="text-start" action="" method="post" enctype="multipart/form-data">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Tambahkan Pesanan</h5>
+                    </div>
+                    <div class="modal-body">
+                      <div class="input-group input-group-outline my-3">
+                        <label class="form-label"></label>
+                        <input type="text" class="form-control" value="<?= $nama_produk; ?>" disabled>
+                        <input type="hidden" value="<?= $nama_produk; ?>" name="nama_produk">
+                      </div>
+                      <div class="input-group input-group-outline my-3">
+                        <label class="form-label"></label>
+                        <input type="text" class="form-control" value="Rp <?= number_format($harga, 0, ",", "."); ?>" disabled>
+                        <input type="hidden" value="<?= $harga; ?>" id="nilai1<?= $id_produk; ?>" oninput="hitungPerkalian(<?= $id_produk; ?>)" name="harga">
+                      </div>
+                      <div class="input-group input-group-outline my-3">
+                        <label class="form-label">Jumlah</label>
+                        <input type="number" class="form-control" id="nilai2<?= $id_produk; ?>" oninput="hitungPerkalian(<?= $id_produk; ?>)" name="jumlah" required>
+                      </div>
+                      <div class="input-group input-group-outline my-3">
+                        <label class="form-label"></label>
+                        <input type="text" class="form-control" id="hasil<?= $id_produk; ?>" oninput="hitungPerkalian(<?= $id_produk; ?>)" readonly>
+                      </div>
+                      <input type="hidden" value="<?= $gambar; ?>" name="gambar">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn bg-gradient-success" name="input_pesanan">Pesan</button>
+                      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
+                    </div>
                   </div>
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label"></label>
-                    <input type="text" class="form-control" value="Rp <?=number_format($harga,0,",",".");?>" disabled>
-                    <input type="hidden" value="<?=$harga;?>" id="nilai1<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" name="harga">
-                  </div>
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Jumlah</label>
-                    <input type="number" class="form-control" id="nilai2<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" name="jumlah" required>
-                  </div>
-                  <div class="input-group input-group-outline my-3">
-                    <label class="form-label"></label>
-                    <input type="text" class="form-control" id="hasil<?=$id_produk;?>" oninput="hitungPerkalian(<?=$id_produk;?>)" readonly>
-                  </div>
-                    <input type="hidden" value="<?=$gambar;?>" name="gambar">
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn bg-gradient-success" name="input_pesanan">Pesan</button>
-                  <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-                </div>
+                </form>
               </div>
-            </form>
-          </div>
-        </div>
-        <?php
-          }}else {
-        ?>
-        <div class="text-center">
-          <h3>Data Tidak Ditemukan!</h3>
-          <a href="./kelola-produk.php" class="btn bg-gradient-info w-50 my-2">Tambahkan Data</a>
-        </div>
-        <?php
+            </div>
+          <?php
           }
+        } else {
+          ?>
+          <div class="text-center">
+            <h3>Data Tidak Ditemukan!</h3>
+            <a href="./kelola-produk.php" class="btn bg-gradient-info w-50 my-2">Tambahkan Data</a>
+          </div>
+        <?php
+        }
         ?>
       </div>
       <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-          <i class="material-symbols-rounded py-2 text-<?=$warna_menu?>">shopping_cart</i>
+          <i class="material-symbols-rounded py-2 text-<?= $warna_menu ?>">shopping_cart</i>
         </a>
         <div class="card shadow-lg pt-3" style="border-radius: 35px;">
           <div class="card-header pb-0 pt-3">
@@ -295,79 +296,78 @@ if (mysqli_num_rows($result) > 0) {
           <hr class="horizontal dark my-1">
           <div class="card-body pt-sm-3 pt-0">
             <?php
-              $result = mysqli_query($conn, 'SELECT SUM(subtotal) AS total FROM pesanan'); 
-              $row = mysqli_fetch_assoc($result); 
-              $total = $row['total'];
-              $dataPesanan = mysqli_query($conn, "SELECT * FROM pesanan");
-              while($data=mysqli_fetch_array($dataPesanan)){
-                $id_pesanan = $data['id_pesanan'];
-                $nama_pembeli = $data['nama_pembeli']; 
-                $nama_produk = $data['nama_produk']; 
-                $harga = $data['harga']; 
-                $jumlah = $data['jumlah']; 
-                $subtotal = $data['subtotal'];
-                $gambar = $data['gambar'];
-                $nama_produk_baru = batasi_teks($nama_produk, 10);
+            $result = mysqli_query($conn, 'SELECT SUM(subtotal) AS total FROM pesanan');
+            $row = mysqli_fetch_assoc($result);
+            $total = $row['total'];
+            $dataPesanan = mysqli_query($conn, "SELECT * FROM pesanan");
+            while ($data = mysqli_fetch_array($dataPesanan)) {
+              $id_pesanan = $data['id_pesanan'];
+              $nama_pembeli = $data['nama_pembeli'];
+              $nama_produk = $data['nama_produk'];
+              $harga = $data['harga'];
+              $jumlah = $data['jumlah'];
+              $subtotal = $data['subtotal'];
+              $gambar = $data['gambar'];
+              $nama_produk_baru = batasi_teks($nama_produk, 10);
             ?>
-            <div class="d-flex align-items-center justify-content-between border border-secondary rounded-pill mb-2 px-3 py-2">
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between border border-secondary rounded-pill mb-2 px-3 py-2">
+                <div class="d-flex align-items-center">
+                  <div>
+                    <form method="post">
+                      <input type="hidden" value="<?= $id_pesanan; ?>" name="id_pesanan">
+                      <button class="btn bg-gradient-danger my-0 px-2 py-0" name="hapus_pesanan">
+                        x
+                      </button>
+                    </form>
+                  </div>
+                  <div class="mx-2">
+                    <img class="bg-gradient-primary shadow-dark rounded-circle" src="../assets/img/products/<?= $gambar; ?>" alt="Gambar Belum Dimasukkan" height="30px" width="30px">
+                  </div>
+                  <div class="mx-1">
+                    <span class="text-secondary text-xs font-weight-bold"><?= $jumlah; ?></span>
+                  </div>
+                  <div class="mx-1">
+                    <span class="text-secondary text-xs font-weight-bold">x</span>
+                  </div>
+                  <div class="mx-1">
+                    <span class="text-secondary text-xs font-weight-bold py-2"><?= $nama_produk_baru; ?></span>
+                  </div>
+                </div>
                 <div>
-                  <form method="post">
-                    <input type="hidden" value="<?=$id_pesanan;?>" name="id_pesanan">
-                    <button class="btn bg-gradient-danger my-0 px-2 py-0" name="hapus_pesanan">
-                      x
-                    </button>
-                  </form>
-                </div>
-                <div class="mx-2">
-                  <img class="bg-gradient-primary shadow-dark rounded-circle" src="../assets/img/products/<?=$gambar;?>" alt="Gambar Belum Dimasukkan" height="30px" width="30px">
-                </div>
-                <div class="mx-1">
-                  <span class="text-secondary text-xs font-weight-bold"><?=$jumlah;?></span>
-                </div>
-                <div class="mx-1">
-                  <span class="text-secondary text-xs font-weight-bold">x</span>
-                </div>
-                <div class="mx-1">
-                  <span class="text-secondary text-xs font-weight-bold py-2"><?=$nama_produk_baru;?></span>
+                  <span class="text-warning text-xs font-weight-bold"><?= format_angka($harga); ?></span>
                 </div>
               </div>
-              <div>
-                <span class="text-warning text-xs font-weight-bold"><?=format_angka($harga);?></span>
-              </div>
-            </div>
             <?php
-              };
+            };
             ?>
           </div>
           <div class="card-footer pt-sm-3">
             <?php
-              if ($kwitansi) {
+            if ($kwitansi) {
             ?>
               <div class="text-start pt-2">
-                <p class="fw-bolder mb-0">Total : Rp <?=number_format($total,0,",",".");?></p>
+                <p class="fw-bolder mb-0">Total : Rp <?= number_format($total, 0, ",", "."); ?></p>
               </div>
               <form role="form" action="" method="post" enctype="multipart/form-data">
                 <div class="input-group input-group-outline my-3">
-                <input type="hidden" value="<?=$kwitansi?>" name="kwitansi">
+                  <input type="hidden" value="<?= $kwitansi ?>" name="kwitansi">
                   <label class="form-label">Nama Pembeli</label>
-                    <input type="text" class="form-control" name="nama_pembeli" required>
+                  <input type="text" class="form-control" name="nama_pembeli" required>
                 </div>
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label"></label>
-                    <input type="date" class="form-control" value="<?=date("Y-m-d");?>" name="tanggal" required>
+                  <input type="date" class="form-control" value="<?= date("Y-m-d"); ?>" name="tanggal" required>
                 </div>
                 <button class="btn btn-outline-primary w-100 mb-3" name="konfirmasi_pesanan">Selesai</button>
               </form>
               <form id="myForm" action="invoice.php" method="get" target="_blank">
-                <input type="hidden" value="<?=$kwitansi?>" name="kwitansi">
+                <input type="hidden" value="<?= $kwitansi ?>" name="kwitansi">
               </form>
-              <a href="#" onclick="document.getElementById('myForm').submit(); return false;"
-              class="btn btn-outline-info w-100 mb-3 d-flex align-items-center justify-content-center">
+              <a href="#" onclick="document.getElementById('myForm').submit(); return false;" class="btn btn-outline-info w-100 mb-3 d-flex align-items-center justify-content-center">
                 <span class="material-symbols-rounded me-1">picture_as_pdf</span>Invoice
               </a>
             <?php
-              }
+            }
             ?>
           </div>
         </div>
@@ -388,25 +388,32 @@ if (mysqli_num_rows($result) > 0) {
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
     function formatRupiah(angka) {
       // Menggunakan built-in function toLocaleString() pada angka dengan bahasa Indonesia dan menghilangkan angka di belakang koma
-      return angka.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return angka.toLocaleString('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
     }
+
     function hitungPerkalian(id) {
-      let nilai1 = document.getElementById("nilai1"+id).value;
-      let nilai2 = document.getElementById("nilai2"+id).value;
-      if(nilai1&&nilai2) {
+      let nilai1 = document.getElementById("nilai1" + id).value;
+      let nilai2 = document.getElementById("nilai2" + id).value;
+      if (nilai1 && nilai2) {
         let hasil = nilai1 * nilai2;
-        document.getElementById("hasil"+id).value = formatRupiah(hasil);
+        document.getElementById("hasil" + id).value = formatRupiah(hasil);
         return;
       }
-      document.getElementById("hasil"+id).value = formatRupiah(nilai1);
+      document.getElementById("hasil" + id).value = formatRupiah(nilai1);
     }
     window.onload = function() {
       var form = document.getElementById('myForm');
       form.target = '_blank'; // membuka halaman proses.php di tab baru
     };
-</script>
+  </script>
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -417,18 +424,19 @@ if (mysqli_num_rows($result) > 0) {
 
 </body>
 
-  <!-- Sign Out Modal-->
-  <div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
-        </div>
-        <div class="modal-footer">
-          <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
-        </div>
+<!-- Sign Out Modal-->
+<div class="modal fade" id="signOutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Yakin Ingin Keluar?</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="btn bg-gradient-primary" href="../sign-out.php">Iya</a>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Batal</button>
       </div>
     </div>
   </div>
+</div>
+
 </html>
